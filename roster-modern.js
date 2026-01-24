@@ -646,23 +646,29 @@
 
     state.updatedAt = json.updatedAt || null;
 
-    state.members = (json.members || []).map(m => ({
-      MemberId: norm(m.MemberId),
-      BadgeNumber: norm(m.BadgeNumber),
-      Callsign: norm(m.Callsign),
-      FirstName: norm(m.FirstName),
-      LastName: norm(m.LastName),
-      DisplayName: norm(m.DisplayName),
-      Rank: norm(m.Rank),
-      Unit: norm(m.Unit),
-      Status: norm(m.Status),
-      DiscordHandle: norm(m.DiscordHandle),
-      PhotoUrl: norm(m.PhotoUrl),
-      JoinedDate: norm(m.JoinedDate),
-      Certifications: norm(m.Certifications),
-      Bio: norm(m.Bio),
-      Notes: norm(m.Notes),
-    }));
+    state.members = (json.members || [])
+  .map(m => ({
+    MemberId: norm(m.MemberId),
+    BadgeNumber: norm(m.BadgeNumber),
+    Callsign: norm(m.Callsign),
+    FirstName: norm(m.FirstName),
+    LastName: norm(m.LastName),
+    DisplayName: norm(m.DisplayName),
+    Rank: norm(m.Rank),
+    Unit: norm(m.Unit),
+    Status: norm(m.Status),
+    DiscordHandle: norm(m.DiscordHandle),
+    PhotoUrl: norm(m.PhotoUrl),
+    JoinedDate: norm(m.JoinedDate),
+    Certifications: norm(m.Certifications),
+    Bio: norm(m.Bio),
+    Notes: norm(m.Notes),
+  }))
+  // ✅ Remove “empty lines” (no DisplayName AND no First/Last)
+  .filter(m => {
+    const name = displayName(m);
+    return name && name.length >= 2; // keeps real names, drops blank rows
+  });
 
     render(root);
     root.querySelectorAll(".btn").forEach(b => b.disabled = false);
