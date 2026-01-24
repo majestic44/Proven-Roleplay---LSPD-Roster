@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Command – Scene Command & Transfer of Authority</title>
+
+  <link rel="stylesheet" href="../info/info.css" />
+  <link rel="stylesheet" href="../sop/sop-template.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Command Handbook</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="./index.html">Handbook Index</button>
+        <button class="navItem" data-link="./responsibilities.html">Supervisor Responsibilities</button>
+        <button class="navItem active">Scene Command & Transfer</button>
+      </nav>
+
+      <div class="sideFoot">
+        Clear command prevents chaos. Announce it early and keep it simple.
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1" id="title"></div>
+          <div class="h2" id="subtitle"></div>
+        </div>
+        <div class="topRight">
+          <button class="btnGhost" id="backBtn" type="button">← Back</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="sopLayout">
+
+          <aside class="sopNav">
+            <div class="sopNavHdr">
+              <div class="sopNavKicker">Quick Nav</div>
+              <div class="sopNavTitle">Sections</div>
+            </div>
+
+            <div class="sopNavList" id="quickNav"></div>
+
+            <div class="sopMeta" id="metaBox"></div>
+          </aside>
+
+          <div class="sopContent">
+            <div class="sopIntro" id="introBox"></div>
+            <div class="accordion" id="accordion"></div>
+            <div class="sopFooterNote" id="footerNote"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Command Handbook • Scene Command & Transfer</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <script src="./scene-command.js"></script>
+</body>
+</html>
