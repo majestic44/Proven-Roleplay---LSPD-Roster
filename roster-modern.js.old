@@ -1,26 +1,18 @@
 (() => {
-  // ============================================================
-  // LSPD ROSTER (Full UI)
-  // - data-view="web"   : full-page demo background + centered panel
-  // - data-view="embed" : transparent + fills container (MDT iframe safe)
-  // - data-notes="on|off" toggles Notes in the profile modal
-  // - data-demo="on|off" toggles DEMO badge in web view
-  // ============================================================
-
   // ================================
   // CONFIG
   // ================================
   const DATA_URL =
     "https://script.google.com/macros/s/AKfycbz_FvVFNjpUA010vIt-JUD9ZytS0zSQUq-etkNlN1TJwx8vuaId2Bp3vB8lLGbwjv4/exec";
 
-  const VIEW_MODE = (document.documentElement.dataset.view || "embed").toLowerCase();
-  const DEMO_MODE = VIEW_MODE === "web";
-  const SHOW_NOTES = (document.documentElement.dataset.notes || "off").toLowerCase() === "on";
-  const DEMO_BADGE = (document.documentElement.dataset.demo || "on").toLowerCase() !== "off";
+  // true  = full-page demo background + centered panel + DEMO badge
+  // false = transparent/embed-friendly (MDT safe)
+  const DEMO_MODE = false;
 
-  const WEB_MODAL_W = 980;   // web view modal width (px)
-const EMBED_MODAL_W = 820; // embed view modal width (px)
+  // Show/hide the Notes section in the profile modal
+const SHOW_NOTES = false; // set true to enable Notes
 
+  // Rank order for sorting (highest first). Adjust anytime.
   const RANK_ORDER = [
     "Chief",
     "Deputy Chief",
@@ -48,7 +40,6 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     for (const [k, v] of Object.entries(attrs)) {
       if (k === "class") n.className = v;
       else if (k === "html") n.innerHTML = v;
-      else if (k === "style") n.setAttribute("style", v);
       else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
       else if (v !== undefined && v !== null) n.setAttribute(k, v);
     }
@@ -99,14 +90,6 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     return "st-recruit";
   };
 
-  function formatDate(v) {
-    const s = norm(v);
-    if (!s) return "—";
-    const d = new Date(s);
-    if (Number.isNaN(d.getTime())) return s;
-    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
-  }
-
   // ================================
   // STYLES
   // ================================
@@ -114,8 +97,10 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     const css = `
       :root{
         --mdt-bg: #081d37;
-        --mdt-panel: rgba(10,18,34,0.92);
+        --mdt-panel: rgba(10,18,34,0.86);
+        --mdt-panel2: rgba(7,13,25,0.72);
         --mdt-line: rgba(255,255,255,0.10);
+        --mdt-line2: rgba(103,179,255,0.22);
         --mdt-text: #eaf2ff;
         --mdt-muted: #a9b8d3;
         --mdt-blue: #67b3ff;
@@ -125,9 +110,6 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         --r22: 22px;
       }
 
-      :root { color-scheme: dark; }
-      select, input { color-scheme: dark; }
-
       html,body{
         height:100%;
         margin:0;
@@ -136,45 +118,41 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         background: ${DEMO_MODE ? "#081d37" : "transparent"};
       }
 
+      /* Make native form controls use dark UI where supported */
+      :root { color-scheme: dark; }
+      select, input { color-scheme: dark; }
+
+      /* =========================
+         DEMO BACKGROUND WRAPPER
+      ========================= */
       #lspd-roster-root{
-        ${
-          DEMO_MODE
-            ? `
+        ${DEMO_MODE ? `
         min-height: 100vh;
         width: 100%;
         display:flex;
-        align-items:flex-start;
+        align-items:center;
         justify-content:center;
-        padding: 26px 26px 34px;
+        padding: 28px;
         box-sizing: border-box;
         background:
           radial-gradient(1200px 700px at 15% 10%, rgba(103,179,255,.20), transparent 55%),
           radial-gradient(900px 600px at 85% 25%, rgba(255,170,60,.10), transparent 55%),
           linear-gradient(180deg, #081d37, #050a14);
-        `
-            : `
+        ` : `
         height:100%;
         width:100%;
         padding:0;
-        box-sizing: border-box;
-        `
-        }
+        `}
       }
 
       #lspdRoster{
-        ${
-          DEMO_MODE
-            ? `
+        ${DEMO_MODE ? `
         width: min(1320px, 100%);
-        min-height: 720px;
-        height: auto;
-        max-height: calc(100vh - 60px);
-        `
-            : `
+        height: min(900px, 92vh);
+        ` : `
         width:100%;
         height:100%;
-        `
-        }
+        `}
         display:flex;
         flex-direction:column;
         gap:12px;
@@ -205,7 +183,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         letter-spacing:.12em;
         color: var(--mdt-muted);
         text-transform:uppercase;
-        font-weight:800;
+        font-weight:700;
       }
       .title .h1{
         font-size:22px;
@@ -232,14 +210,20 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       .in{ min-width: 260px; }
       .sel{ min-width: 160px; }
 
-      select.sel{ background-color: rgba(9,16,30,0.95); }
-      select.sel option{ background-color: #081d37; color: #eaf2ff; }
+      /* FIX: dropdown option readability */
+      select.sel{
+        background-color: rgba(9,16,30,0.95);
+      }
+      select.sel option{
+        background-color: #081d37;
+        color: #eaf2ff;
+      }
 
       .btn{
         cursor:pointer;
         background: linear-gradient(180deg, rgba(103,179,255,0.22), rgba(103,179,255,0.10));
         border-color: rgba(103,179,255,0.35);
-        font-weight:900;
+        font-weight:800;
       }
       .btn:disabled{ opacity:.6; cursor:not-allowed; }
       .btn:active{ transform: translateY(1px); }
@@ -261,7 +245,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         font-size:12px;
         letter-spacing:.10em;
         text-transform:uppercase;
-        font-weight:800;
+        font-weight:700;
       }
       .stat .val{
         font-size:20px;
@@ -270,9 +254,11 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       }
 
       .body{
+        display:grid;
+        grid-template-columns: 1fr;
+        gap:12px;
         padding: 0 10px 10px;
         overflow:auto;
-        border-radius: var(--r22);
       }
 
       .grid{
@@ -283,18 +269,17 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
 
       .card{
         grid-column: span 4;
-        border: 1px solid rgba(255,255,255,0.11);
+        border: 1px solid var(--mdt-line);
         border-radius: var(--r22);
-        background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(0,0,0,0.14));
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.10));
         overflow:hidden;
         cursor:pointer;
-        transition: transform .12s ease, border-color .12s ease, background .12s ease;
-        min-height: 108px;
+        transition: transform .12s ease, border-color .12s ease;
+        min-height: 110px;
       }
       .card:hover{
         transform: translateY(-2px);
-        border-color: rgba(103,179,255,0.40);
-        background: linear-gradient(180deg, rgba(103,179,255,0.07), rgba(0,0,0,0.14));
+        border-color: rgba(103,179,255,0.35);
       }
 
       .row{
@@ -341,7 +326,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       }
       .chip{
         font-size:12px;
-        font-weight:900;
+        font-weight:800;
         border-radius: 999px;
         padding: 6px 10px;
         border: 1px solid var(--mdt-line);
@@ -365,7 +350,9 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       .chip.status.st-reserve{ background: rgba(103,179,255,0.10); border-color: rgba(103,179,255,0.20); }
       .chip.status.st-recruit{ background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
 
-      /* Center modal */
+      /* =========================
+         CENTER PROFILE MODAL
+      ========================= */
       .modalMask{
         position:fixed;
         inset:0;
@@ -380,7 +367,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       }
 
       .modal{
-        width: min(${DEMO_MODE ? `${WEB_MODAL_W}px` : `${EMBED_MODAL_W}px`}, 92vw);
+        width: min(760px, 92vw);
         max-height: 90vh;
         background: linear-gradient(180deg, rgba(12,20,40,0.98), rgba(7,12,24,0.98));
         border: 1px solid rgba(103,179,255,0.28);
@@ -389,8 +376,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         display:flex;
         flex-direction:column;
         overflow:hidden;
-    }
-
+      }
 
       .modalTop{
         display:flex;
@@ -423,7 +409,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         padding: 16px;
         overflow:auto;
         display:grid;
-        grid-template-columns: 300px 1fr;
+        grid-template-columns: 280px 1fr;
         gap:16px;
       }
 
@@ -462,7 +448,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         font-size:12px;
         letter-spacing:.10em;
         text-transform:uppercase;
-        font-weight:900;
+        font-weight:800;
       }
 
       .modalKV .v{
@@ -472,9 +458,8 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
 
       .modalPara .p{
         margin-top:8px;
-        line-height:1.55;
+        line-height:1.45;
         font-size:13px;
-        color: rgba(234,242,255,0.92);
       }
 
       .foot{
@@ -483,7 +468,9 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         font-size:12px;
       }
 
-      /* DEMO badge */
+      /* =========================
+         DEMO BADGE
+      ========================= */
       .demoBadge{
         position: fixed;
         right: 14px;
@@ -524,14 +511,13 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         .sel{ min-width: 48%; }
       }
     `;
-
     const style = document.createElement("style");
     style.textContent = css;
     document.head.appendChild(style);
   };
 
   // ================================
-  // STATE
+  // APP STATE
   // ================================
   const state = {
     members: [],
@@ -546,7 +532,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
   };
 
   // ================================
-  // FILTERS + SORT
+  // DATA + FILTERS
   // ================================
   function computeStats(arr) {
     const total = arr.length;
@@ -568,7 +554,6 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       arr = arr.filter((m) => {
         const hay = upper(
           [
-            m.MemberId,
             m.BadgeNumber,
             m.Callsign,
             m.FirstName,
@@ -594,7 +579,9 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
           (Number(a.BadgeNumber) || 0) - (Number(b.BadgeNumber) || 0)
       );
     } else if (state.sort === "Badge") {
-      arr.sort((a, b) => (Number(a.BadgeNumber) || 0) - (Number(b.BadgeNumber) || 0));
+      arr.sort(
+        (a, b) => (Number(a.BadgeNumber) || 0) - (Number(b.BadgeNumber) || 0)
+      );
     } else if (state.sort === "Name") {
       arr.sort((a, b) => displayName(a).localeCompare(displayName(b)));
     }
@@ -615,12 +602,15 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
   }
 
   // ================================
-  // UI – Build once (prevents focus loss)
+  // UI BUILD (build once; update grid/stats only)
   // ================================
   function statBox(label) {
     const valNode = el("div", { class: "val" }, ["0"]);
     return {
-      wrap: el("div", { class: "stat" }, [el("div", { class: "label" }, [label]), valNode]),
+      wrap: el("div", { class: "stat" }, [
+        el("div", { class: "label" }, [label]),
+        valNode,
+      ]),
       valNode,
     };
   }
@@ -654,16 +644,22 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       },
       [
         el("div", { class: "row" }, [
-          el("div", { class: "avatar" }, [el("img", { src: safeImg(m.PhotoUrl), alt: "" })]),
+          el("div", { class: "avatar" }, [
+            el("img", { src: safeImg(m.PhotoUrl), alt: "" }),
+          ]),
           el("div", { class: "meta" }, [
             el("div", { class: "name" }, [name]),
-            el("div", { class: "sub" }, [line || `${norm(m.Rank)} • ${norm(m.Unit)}`]),
+            el("div", { class: "sub" }, [
+              line || `${norm(m.Rank)} • ${norm(m.Unit)}`,
+            ]),
             el("div", { class: "chips" }, [
               el("span", { class: "chip rank" }, [norm(m.Rank) || "Rank —"]),
               el("span", { class: "chip unit" }, [norm(m.Unit) || "Unit —"]),
-              el("span", { class: `chip status ${statusClass(m.Status)}` }, [
-                norm(m.Status) || "Status —",
-              ]),
+              el(
+                "span",
+                { class: `chip status ${statusClass(m.Status)}` },
+                [norm(m.Status) || "Status —"]
+              ),
             ]),
           ]),
         ]),
@@ -678,11 +674,12 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       value: state.q,
     });
 
+    // FIX: no full rerender. Update list only (debounced)
     let t = null;
     searchInput.addEventListener("input", (e) => {
       state.q = e.target.value;
       if (t) window.clearTimeout(t);
-      t = window.setTimeout(() => updateView(), 40);
+      t = window.setTimeout(() => updateView(), 60);
     });
 
     const rankSel = el("select", { class: "sel" });
@@ -690,14 +687,27 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     const statusSel = el("select", { class: "sel" });
     const sortSel = el("select", { class: "sel" });
 
-    rankSel.addEventListener("change", (e) => { state.rank = e.target.value; updateView(); });
-    unitSel.addEventListener("change", (e) => { state.unit = e.target.value; updateView(); });
-    statusSel.addEventListener("change", (e) => { state.status = e.target.value; updateView(); });
-    sortSel.addEventListener("change", (e) => { state.sort = e.target.value; updateView(); });
+    rankSel.addEventListener("change", (e) => {
+      state.rank = e.target.value;
+      updateView();
+    });
+    unitSel.addEventListener("change", (e) => {
+      state.unit = e.target.value;
+      updateView();
+    });
+    statusSel.addEventListener("change", (e) => {
+      state.status = e.target.value;
+      updateView();
+    });
+    sortSel.addEventListener("change", (e) => {
+      state.sort = e.target.value;
+      updateView();
+    });
 
     const refreshBtn = el("button", { class: "btn" }, ["Refresh"]);
     refreshBtn.addEventListener("click", () => load());
 
+    // Stats
     const sTotal = statBox("Total Sworn");
     const sActive = statBox("Active");
     const sLoa = statBox("LOA");
@@ -711,10 +721,23 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         el("div", { class: "kicker" }, ["Los Santos Police Department"]),
         el("div", { class: "h1" }, ["Department Roster"]),
       ]),
-      el("div", { class: "controls" }, [searchInput, rankSel, unitSel, statusSel, sortSel, refreshBtn]),
+      el("div", { class: "controls" }, [
+        searchInput,
+        rankSel,
+        unitSel,
+        statusSel,
+        sortSel,
+        refreshBtn,
+      ]),
     ]);
 
-    const statsRow = el("div", { class: "stats" }, [sTotal.wrap, sActive.wrap, sLoa.wrap, sInactive.wrap]);
+    const statsRow = el("div", { class: "stats" }, [
+      sTotal.wrap,
+      sActive.wrap,
+      sLoa.wrap,
+      sInactive.wrap,
+    ]);
+
     const body = el("div", { class: "body" }, [grid]);
 
     root.appendChild(hdr);
@@ -731,7 +754,12 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       refreshBtn,
       grid,
       foot,
-      stats: { total: sTotal.valNode, active: sActive.valNode, loa: sLoa.valNode, inactive: sInactive.valNode },
+      stats: {
+        total: sTotal.valNode,
+        active: sActive.valNode,
+        loa: sLoa.valNode,
+        inactive: sInactive.valNode,
+      },
     };
   }
 
@@ -741,17 +769,20 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     applyFilters();
     const stats = computeStats(state.filtered);
 
+    // Update stats numbers
     state.ui.stats.total.textContent = String(stats.total);
     state.ui.stats.active.textContent = String(stats.active);
     state.ui.stats.loa.textContent = String(stats.loa);
     state.ui.stats.inactive.textContent = String(stats.inactive);
 
+    // Update cards grid only (no focus loss)
     state.ui.grid.innerHTML = "";
     for (const m of state.filtered) state.ui.grid.appendChild(card(m));
 
+    // Footer
     state.ui.foot.textContent = state.updatedAt
-      ? `Data Updated: ${new Date(state.updatedAt).toLocaleString()}`
-      : "";
+    ? `Data Updated: ${new Date(state.updatedAt).toLocaleString()}`
+    : "";
   }
 
   // ================================
@@ -771,39 +802,15 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     ]);
   }
 
-  function modalParaCollapsible(h, p) {
-    const full = norm(p);
-    const short = full.length > 280 ? full.slice(0, 280).trim() + "…" : full;
-
-    const textNode = el("div", { class: "p" }, [full.length > 280 ? short : (full || "—")]);
-    const btn = el("button", {
-      class: "modalClose",
-      style: "padding:8px 10px; border-radius:10px; width:max-content;",
-    }, [full.length > 280 ? "Show more" : ""]);
-
-    if (full.length <= 280) btn.style.display = "none";
-
-    let expanded = false;
-    btn.addEventListener("click", () => {
-      expanded = !expanded;
-      textNode.textContent = expanded ? full : short;
-      btn.textContent = expanded ? "Show less" : "Show more";
-    });
-
-    return el("div", { class: "modalPara" }, [
-      el("div", { class: "h" }, [h]),
-      textNode,
-      btn
-    ]);
-  }
-
   function modalShell() {
     const mask = el(
       "div",
       {
         id: "rosterModalMask",
         class: "modalMask",
-        onclick: (e) => { if (e.target.id === "rosterModalMask") closeModal(); },
+        onclick: (e) => {
+          if (e.target.id === "rosterModalMask") closeModal();
+        },
       },
       [
         el("div", { class: "modal" }, [
@@ -816,7 +823,10 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       ]
     );
 
-    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
     return mask;
   }
 
@@ -836,29 +846,28 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     );
 
     const blocks = [
-      modalKV(
-        "Member / Badge",
-        [norm(m.MemberId), norm(m.BadgeNumber) ? `Badge ${norm(m.BadgeNumber)}` : ""].filter(Boolean).join(" • ") || "—"
-      ),
-      modalKV(
-        "Badge / Callsign",
-        [norm(m.BadgeNumber) ? `Badge ${norm(m.BadgeNumber)}` : "", norm(m.Callsign) ? `Callsign ${norm(m.Callsign)}` : ""]
-          .filter(Boolean)
-          .join(" • ") || "—"
-      ),
-      modalKV("Rank / Unit", `${norm(m.Rank) || "—"} • ${norm(m.Unit) || "—"}`),
-      modalKV("Status", norm(m.Status) || "—"),
-      modalKV("Joined", formatDate(m.JoinedDate)),
-      modalKV("Discord", norm(m.DiscordHandle) || "—"),
-      modalParaCollapsible("Bio", norm(m.Bio) || "—"),
-      modalParaCollapsible("Certifications", norm(m.Certifications) || "—"),
-    ];
+  modalKV(
+    "Badge / Callsign",
+    [
+      norm(m.BadgeNumber) ? `Badge ${norm(m.BadgeNumber)}` : "",
+      norm(m.Callsign) ? `Callsign ${norm(m.Callsign)}` : "",
+    ].filter(Boolean).join(" • ") || "—"
+  ),
+  modalKV("Rank / Unit", `${norm(m.Rank) || "—"} • ${norm(m.Unit) || "—"}`),
+  modalKV("Status", norm(m.Status) || "—"),
+  modalKV("Joined", norm(m.JoinedDate) || "—"),
+  modalKV("Discord", norm(m.DiscordHandle) || "—"),
+  modalPara("Bio", norm(m.Bio) || "—"),
+  modalPara("Certifications", norm(m.Certifications) || "—"),
+];
 
-    if (SHOW_NOTES) blocks.push(modalParaCollapsible("Notes", norm(m.Notes) || "—"));
+if (SHOW_NOTES) {
+  blocks.push(modalPara("Notes", norm(m.Notes) || "—"));
+}
 
-    const right = el("div", { class: "modalStack" }, blocks);
+const right = el("div", { class: "modalStack" }, blocks);
+
     body.appendChild(right);
-
     mask.classList.add("open");
   }
 
@@ -871,16 +880,12 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
   // DEMO BADGE
   // ================================
   function ensureDemoBadge() {
-    if (!DEMO_MODE || !DEMO_BADGE) {
-      const existing = document.getElementById("demoBadge");
-      if (existing) existing.remove();
-      return;
-    }
+    if (!DEMO_MODE) return;
     if (document.getElementById("demoBadge")) return;
 
     const badge = el("div", { id: "demoBadge", class: "demoBadge" }, [
       "DEMO",
-      el("small", {}, ["Web View Enabled"]),
+      el("small", {}, ["Background Enabled"]),
     ]);
     document.body.appendChild(badge);
   }
@@ -890,7 +895,6 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
   // ================================
   async function load() {
     if (!state.ui) return;
-
     state.ui.refreshBtn.disabled = true;
 
     const res = await fetch(DATA_URL, { cache: "no-store" });
@@ -904,15 +908,12 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         MemberId: norm(m.MemberId || m.ID),
         BadgeNumber: norm(m.BadgeNumber || m.Badge || m.BadgeNum),
         Callsign: norm(m.Callsign || m.CallSign),
-
         FirstName: norm(m.FirstName || m.First),
         LastName: norm(m.LastName || m.Last),
         DisplayName: norm(m.DisplayName || m.Name),
-
         Rank: norm(m.Rank || m.PoliceRank),
         Unit: norm(m.Unit || m.Division),
         Status: norm(m.Status),
-
         DiscordHandle: norm(m.DiscordHandle || m.Discord),
         PhotoUrl: norm(m.PhotoUrl || m.Photo || m.ImageUrl),
         JoinedDate: norm(m.JoinedDate || m.Joined),
@@ -920,11 +921,13 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         Bio: norm(m.Bio),
         Notes: norm(m.Notes),
       }))
+      // Hide empty rows with no usable name
       .filter((m) => {
         const name = displayName(m);
         return name && name.length >= 2;
       });
 
+    // Populate selects AFTER data loads
     populateSelect(state.ui.rankSel, "Rank", getUnique("Rank"), state.rank);
     populateSelect(state.ui.unitSel, "Unit", getUnique("Unit"), state.unit);
     populateSelect(state.ui.statusSel, "Status", getUnique("Status"), state.status);
@@ -946,14 +949,18 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
     const app = el("div", { id: "lspdRoster" }, []);
     mount.appendChild(app);
 
+    // Build UI ONCE (prevents input focus loss)
     state.ui = buildUI(app);
 
+    // Modal once
     if (!document.getElementById("rosterModalMask")) {
       document.body.appendChild(modalShell());
     }
 
+    // Demo badge once
     ensureDemoBadge();
 
+    // Initial load
     load().catch((err) => {
       console.error(err);
       app.innerHTML = `
