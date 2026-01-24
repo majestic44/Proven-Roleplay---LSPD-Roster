@@ -1,0 +1,118 @@
+# 10 Codes...
+- 10-0 - Disappeared
+- 10-1 - Frequency Change
+- 10-2 - Frequency Affirm
+- 10-3 - Stop Transmitting
+- 10-4 - Affirmative
+- 10-5 - Meal Break Burger Shots Etc.
+- 10-6 - Busy
+- 10-7 - Out of Service
+- 10-8 - In Service
+- 10-9 - Repeat
+- 10-10 - Fight in Progress
+- 10-11 - Traffic Stop
+- 10-12 - Active Ride Along
+- 10-13 - Shots Fired
+- 10-14 - Bomb Threat
+- 10-15 - Subject in custody enroute to Station
+- 10-16 - Stolen Vehicle
+- 10-17 - Suspicious Person
+- 10-18 - Drug Unit
+- 10-19 - Bomb Unit
+- 10-20 - Location
+- 10-21 - Update 10-20
+- 10-22 - Disregard
+- 10-23 - Arrived on Scene
+- 10-24 - Leaving Scene
+- 10-25 - Domestic Dispute
+- 10-26 - ETA
+- 10-27 - Drivers License Check for Valid
+- 10-28 - Vehicle License Plate Check
+- 10-29 - NCIC Warrant Check
+- 10-30 - Wanted
+- 10-31 - Not Wanted No Warrants
+- 10-32 - Request Backup (Code 1-2-3)
+- 10-33 - Swat Unit
+- 10-34 - Drug Unit
+- ​10-35 - Wrap The Scene Up
+- 10-36 - Wrapped The Scene Up
+- 10-37 - Continue
+- 10-38 - Withdraw
+- 10-39 - Signal Report
+- 10-40 - Heading Home
+- 10-41 - Beginning Tour of Duty
+- 10-42 - Ending Tour of Duty
+- 10-43 - Information
+- 10-44 - School Shooting
+- 10-45 - PD Shooting
+- 10-46 - Terrorist Attack
+- 10-47 - Shootout
+- 10-48 - Suicide
+- 10-49 - Homicide
+- 10-50 - Vehicle Accident: PD: Property Damage Only, PI: Person/s Injured, F: Fatal
+- 10-51 - Request Towing Service
+- 10-52 - Request EMS
+- 10-53 - Request Fire Department
+- 10-54 - Escort
+- 10-55 - Intoxicated Driver
+- 10-56 - Intoxicated Pedestrian
+- 10-57 - Protest
+- 10-58 - Armed Protest
+- 10-59 - Armed with a Bomb
+- 10-60 - Armed with a Gun
+- 10-61 - Armed with a Knife
+- 10-62 - Kidnapping
+- 10-63 - Officer Kidnapping
+- 10-64 - Assault
+- 10-65 - Escorting Prisoner
+- 10-66 - Reckless Driver
+- 10-67 - Fire
+- 10-68 - Armed Robbery
+- 10-69 - First Responders
+- 10-70 - Foot Pursuit
+- 10-71 - Request Supervisor at Scene
+- 10-72 - Coroner
+- 10-73 - Advise Status
+- 10-74 - Status Affirm
+- 10-75 - Gang Unit
+- 10-76 - Bomb Unit
+- 10-77 - Officer Hit
+- 10-78 - Civilian Hit
+- 10-79 - Hostage Situation
+- 10-80 - Vehicle Pursuit
+- 10-81 - Advise Pit
+- 10-82 - Timer
+- 10-83 - Caution
+- 10-84 - Report to Station
+- 10-85 - All Units Report to Station
+- 10-86 - Supervisors Report to Station
+- 10-87 - Busy Line
+- 10-88 - Open Line
+- 10-89 - No Radio
+- 10-90 - In-Game Warning
+- 10-91 - In-Game Warning (2)
+- 10-92 - Kick
+- 10-93 - Ban
+- 10-94 - Illegal Modifications
+- 10-95 - Forest Run
+- 10-96 - Ocean Crash
+- 10-97 - In Route (Call)
+- 10-98 - In Route (Hospital)
+- 10-100 - Officer Down
+- 10-99 - Officer In Distress Extreme Emergency Only
+
+# Codes
+- Code 0 - Game Crash
+- Code 1 - Ambulance Response, Priority
+- Code 2 - No Lights, No Siren
+- Code 3 - Lights and Siren
+- Code 4 - Under Control / Clear
+- Code 5 - Felony / High Risk Stop
+- Code 6 - Investigation - Follow Up
+- Code 7 - Briefing
+- Code 8 - Explosion
+- Code 9 - All-Unit Report (10-73)
+- Code 10 - Swat Response
+- Code 100 - Armed Robbery
+- ​Code 100-2 - Robbery
+- Code 200 - Prison Break (Swat Response Follows)
