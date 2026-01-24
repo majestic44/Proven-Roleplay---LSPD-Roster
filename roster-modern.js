@@ -4,6 +4,10 @@
   // ================================
   const DATA_URL = "https://script.google.com/macros/s/AKfycbx-RgIY2AszBYGZdbQJw7jsweqcr5_XQfqRzXJ2DL79ikJZ_c_itOkHJQU31coWIpFl/exec";
 
+  // true  = full-page demo background + centered panel + DEMO badge
+  // false = transparent/embed-friendly (MDT safe)
+  const DEMO_MODE = true;
+
   // Rank order for sorting (highest first). Adjust anytime.
   const RANK_ORDER = [
     "Chief",
@@ -84,7 +88,7 @@
   const injectStyles = () => {
     const css = `
       :root{
-        --mdt-bg: #081d37; /* requested solid page background */
+        --mdt-bg: #081d37;
         --mdt-panel: rgba(10,18,34,0.86);
         --mdt-panel2: rgba(7,13,25,0.72);
         --mdt-line: rgba(255,255,255,0.10);
@@ -98,16 +102,45 @@
         --r22: 22px;
       }
 
-      html,body{height:100%}
-      body{
+      html,body{
+        height:100%;
         margin:0;
-        background: var(--mdt-bg); /* ✅ solid background */
-        color: var(--mdt-text);
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        color: var(--mdt-text);
+        background: ${DEMO_MODE ? "#081d37" : "transparent"};
+      }
+
+      /* =========================
+         DEMO BACKGROUND WRAPPER
+      ========================= */
+      #lspd-roster-root{
+        ${DEMO_MODE ? `
+        min-height: 100vh;
+        width: 100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding: 28px;
+        box-sizing: border-box;
+        background:
+          radial-gradient(1200px 700px at 15% 10%, rgba(103,179,255,.20), transparent 55%),
+          radial-gradient(900px 600px at 85% 25%, rgba(255,170,60,.10), transparent 55%),
+          linear-gradient(180deg, #081d37, #050a14);
+        ` : `
+        height:100%;
+        width:100%;
+        padding:0;
+        `}
       }
 
       #lspdRoster{
+        ${DEMO_MODE ? `
+        width: min(1320px, 100%);
+        height: min(900px, 92vh);
+        ` : `
+        width:100%;
         height:100%;
+        `}
         display:flex;
         flex-direction:column;
         gap:12px;
@@ -414,6 +447,36 @@
         font-size:12px;
       }
 
+      /* =========================
+         DEMO BADGE
+      ========================= */
+      .demoBadge{
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        z-index: 10000;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(103,179,255,0.30);
+        background: linear-gradient(180deg, rgba(103,179,255,0.18), rgba(0,0,0,0.30));
+        box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+        color: var(--mdt-text);
+        font-weight: 900;
+        letter-spacing: .12em;
+        font-size: 12px;
+        text-transform: uppercase;
+        user-select: none;
+        pointer-events: none;
+      }
+      .demoBadge small{
+        display:block;
+        margin-top: 4px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        color: rgba(234,242,255,0.72);
+        text-transform: none;
+      }
+
       @media (max-width: 1100px){
         .card{ grid-column: span 6; }
         .stats{ grid-template-columns: repeat(2, minmax(160px, 1fr)); }
@@ -628,6 +691,18 @@
     if (mask) mask.classList.remove("open");
   }
 
+  function ensureDemoBadge(){
+    if (!DEMO_MODE) return;
+    if (document.getElementById("demoBadge")) return;
+
+    const badge = el("div", { id:"demoBadge", class:"demoBadge" }, [
+      "DEMO",
+      el("small", {}, ["Background Enabled"])
+    ]);
+
+    document.body.appendChild(badge);
+  }
+
   function render(root) {
     applyFilters();
     const stats = computeStats(state.filtered);
@@ -681,6 +756,9 @@
     if (!document.getElementById("rosterModalMask")) {
       document.body.appendChild(modalShell());
     }
+
+    // Demo badge once
+    ensureDemoBadge();
   }
 
   async function load(root){
@@ -733,6 +811,9 @@
     if (!document.getElementById("rosterModalMask")) {
       document.body.appendChild(modalShell());
     }
+
+    // Ensure demo badge exists even if load fails
+    ensureDemoBadge();
 
     load(app).catch(err => {
       console.error(err);
