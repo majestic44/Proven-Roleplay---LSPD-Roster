@@ -84,7 +84,7 @@
   const injectStyles = () => {
     const css = `
       :root{
-        --mdt-bg: #0b1220;
+        --mdt-bg: #081d37; /* requested solid page background */
         --mdt-panel: rgba(10,18,34,0.86);
         --mdt-panel2: rgba(7,13,25,0.72);
         --mdt-line: rgba(255,255,255,0.10);
@@ -101,10 +101,7 @@
       html,body{height:100%}
       body{
         margin:0;
-        background:
-          radial-gradient(1200px 700px at 20% 0%, rgba(103,179,255,.13), transparent 60%),
-          radial-gradient(900px 600px at 80% 20%, rgba(255,170,60,.08), transparent 55%),
-          linear-gradient(180deg, #050a14, var(--mdt-bg));
+        background: var(--mdt-bg); /* ✅ solid background */
         color: var(--mdt-text);
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       }
@@ -299,90 +296,114 @@
       .chip.status.st-reserve{ background: rgba(103,179,255,0.10); border-color: rgba(103,179,255,0.20); }
       .chip.status.st-recruit{ background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
 
-      /* Profile drawer */
-      .drawerMask{
+      /* =========================
+         CENTER PROFILE MODAL
+      ========================= */
+      .modalMask{
         position:fixed;
         inset:0;
-        background: rgba(0,0,0,0.55);
+        background: rgba(0,0,0,0.65);
         display:none;
         z-index: 9999;
       }
-      .drawerMask.open{ display:block; }
+      .modalMask.open{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
 
-      .drawer{
-        position:fixed;
-        top:0;
-        right:0;
-        height:100%;
-        width: min(460px, 92vw);
+      .modal{
+        width: min(760px, 92vw);
+        max-height: 90vh;
         background: linear-gradient(180deg, rgba(12,20,40,0.98), rgba(7,12,24,0.98));
-        border-left: 1px solid rgba(103,179,255,0.22);
+        border: 1px solid rgba(103,179,255,0.28);
+        border-radius: var(--r22);
         box-shadow: var(--shadow);
-        transform: translateX(100%);
-        transition: transform .16s ease;
         display:flex;
         flex-direction:column;
+        overflow:hidden;
       }
-      .drawerMask.open .drawer{ transform: translateX(0); }
 
-      .dTop{
-        padding: 16px;
-        border-bottom: 1px solid var(--mdt-line);
+      .modalTop{
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:10px;
+        padding: 16px;
+        border-bottom: 1px solid var(--mdt-line);
+        gap: 10px;
       }
-      .dTop .dTitle{
+
+      .modalTitle{
         font-weight:900;
         letter-spacing:.04em;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
       }
-      .x{
+
+      .modalClose{
         cursor:pointer;
         border:1px solid var(--mdt-line);
-        background: rgba(255,255,255,0.03);
+        background: rgba(255,255,255,0.04);
         color: var(--mdt-text);
         border-radius: 12px;
         padding: 10px 12px;
         font-weight:900;
       }
-      .dBody{
+
+      .modalBody{
         padding: 16px;
         overflow:auto;
-        display:flex;
-        flex-direction:column;
-        gap:12px;
+        display:grid;
+        grid-template-columns: 280px 1fr;
+        gap:16px;
       }
-      .big{
+
+      .modalAvatar{
         width:100%;
-        aspect-ratio: 4/3;
-        border-radius: var(--r22);
+        aspect-ratio: 4 / 3;
+        border-radius: var(--r16);
         border:1px solid var(--mdt-line);
         overflow:hidden;
         background: rgba(255,255,255,0.03);
       }
-      .big img{ width:100%; height:100%; object-fit:cover; display:block; }
+      .modalAvatar img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        display:block;
+      }
 
-      .kv, .para{
+      .modalStack{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+      }
+
+      .modalKV,
+      .modalPara{
         border:1px solid var(--mdt-line);
-        border-radius: var(--r22);
+        border-radius: var(--r16);
         background: rgba(255,255,255,0.02);
         padding: 12px;
       }
-      .kv .k, .para .h{
+
+      .modalKV .k,
+      .modalPara .h{
         color: var(--mdt-muted);
         font-size:12px;
         letter-spacing:.10em;
         text-transform:uppercase;
         font-weight:800;
       }
-      .kv .v{
+
+      .modalKV .v{
         margin-top:6px;
         font-weight:900;
       }
-      .para .p{
+
+      .modalPara .p{
         margin-top:8px;
-        color: var(--mdt-text);
         line-height:1.45;
         font-size:13px;
       }
@@ -396,6 +417,9 @@
       @media (max-width: 1100px){
         .card{ grid-column: span 6; }
         .stats{ grid-template-columns: repeat(2, minmax(160px, 1fr)); }
+      }
+      @media (max-width: 700px){
+        .modalBody{ grid-template-columns: 1fr; }
       }
       @media (max-width: 640px){
         .card{ grid-column: span 12; }
@@ -506,8 +530,8 @@
       class:"card",
       role:"button",
       tabindex:"0",
-      onclick: () => openDrawer(m),
-      onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") openDrawer(m); }
+      onclick: () => openModal(m),
+      onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") openModal(m); }
     }, [
       el("div", { class:"row" }, [
         el("div", { class:"avatar" }, [
@@ -526,63 +550,81 @@
     ]);
   }
 
-  function kv(k, v){
-    return el("div", { class:"kv" }, [
+  function modalKV(k, v){
+    return el("div", { class:"modalKV" }, [
       el("div", { class:"k" }, [k]),
       el("div", { class:"v" }, [v || "—"])
     ]);
   }
 
-  function para(h, p){
-    return el("div", { class:"para" }, [
+  function modalPara(h, p){
+    return el("div", { class:"modalPara" }, [
       el("div", { class:"h" }, [h]),
       el("div", { class:"p" }, [p || "—"])
     ]);
   }
 
-  function drawerShell(){
-    const mask = el("div", { id:"rosterDrawerMask", class:"drawerMask", onclick:(e) => {
-      if (e.target.id === "rosterDrawerMask") closeDrawer();
-    }}, [
-      el("div", { class:"drawer" }, [
-        el("div", { class:"dTop" }, [
-          el("div", { id:"dTitle", class:"dTitle" }, ["Profile"]),
-          el("button", { class:"x", onclick: closeDrawer }, ["Close"])
+  function modalShell(){
+    const mask = el("div", {
+      id:"rosterModalMask",
+      class:"modalMask",
+      onclick:(e) => {
+        if (e.target.id === "rosterModalMask") closeModal();
+      }
+    }, [
+      el("div", { class:"modal" }, [
+        el("div", { class:"modalTop" }, [
+          el("div", { id:"modalTitle", class:"modalTitle" }, ["Profile"]),
+          el("button", { class:"modalClose", onclick: closeModal }, ["Close"])
         ]),
-        el("div", { id:"dBody", class:"dBody" }, [])
+        el("div", { id:"modalBody", class:"modalBody" }, [])
       ])
     ]);
-    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
     return mask;
   }
 
-  function openDrawer(m){
-    const mask = document.getElementById("rosterDrawerMask");
-    const dTitle = document.getElementById("dTitle");
-    const dBody = document.getElementById("dBody");
+  function openModal(m){
+    const mask = document.getElementById("rosterModalMask");
+    const title = document.getElementById("modalTitle");
+    const body = document.getElementById("modalBody");
 
-    dTitle.textContent = `${displayName(m) || "Member"} • ${norm(m.Rank) || "—"}`;
+    title.textContent = `${displayName(m) || "Member"} • ${norm(m.Rank) || "—"}`;
 
-    dBody.innerHTML = "";
-    dBody.appendChild(el("div", { class:"big" }, [
-      el("img", { src: safeImg(m.PhotoUrl), alt:"Profile photo" })
-    ]));
+    body.innerHTML = "";
 
-    dBody.appendChild(kv("Badge / Callsign", [norm(m.BadgeNumber) ? `Badge ${norm(m.BadgeNumber)}` : "", norm(m.Callsign) ? `Callsign ${norm(m.Callsign)}` : ""].filter(Boolean).join(" • ")));
-    dBody.appendChild(kv("Rank / Unit", `${norm(m.Rank) || "—"} • ${norm(m.Unit) || "—"}`));
-    dBody.appendChild(kv("Status", norm(m.Status)));
-    dBody.appendChild(kv("Joined", norm(m.JoinedDate)));
-    dBody.appendChild(kv("Discord", norm(m.DiscordHandle)));
+    body.appendChild(
+      el("div", { class:"modalAvatar" }, [
+        el("img", { src: safeImg(m.PhotoUrl), alt:"Profile photo" })
+      ])
+    );
 
-    dBody.appendChild(para("Bio", norm(m.Bio)));
-    dBody.appendChild(para("Certifications", norm(m.Certifications)));
-    dBody.appendChild(para("Notes", norm(m.Notes))); // remove later if you want
+    const right = el("div", { class:"modalStack" }, [
+      modalKV("Badge / Callsign",
+        [norm(m.BadgeNumber) ? `Badge ${norm(m.BadgeNumber)}` : "",
+         norm(m.Callsign) ? `Callsign ${norm(m.Callsign)}` : ""]
+        .filter(Boolean).join(" • ") || "—"
+      ),
+      modalKV("Rank / Unit", `${norm(m.Rank) || "—"} • ${norm(m.Unit) || "—"}`),
+      modalKV("Status", norm(m.Status)),
+      modalKV("Joined", norm(m.JoinedDate)),
+      modalKV("Discord", norm(m.DiscordHandle)),
+      modalPara("Bio", norm(m.Bio)),
+      modalPara("Certifications", norm(m.Certifications)),
+      modalPara("Notes", norm(m.Notes))
+    ]);
+
+    body.appendChild(right);
 
     mask.classList.add("open");
   }
 
-  function closeDrawer(){
-    const mask = document.getElementById("rosterDrawerMask");
+  function closeModal(){
+    const mask = document.getElementById("rosterModalMask");
     if (mask) mask.classList.remove("open");
   }
 
@@ -602,7 +644,11 @@
           class: "in",
           placeholder: "Search name, badge, callsign, unit…",
           value: state.q,
-          oninput: (e) => { state.q = e.target.value; render(root); }
+          oninput: (e) => {
+            state.q = e.target.value;
+            window.clearTimeout(window.__rosterSearchT);
+            window.__rosterSearchT = window.setTimeout(() => render(root), 80);
+          }
         }),
         selectCtl(root, "rank", "Rank", getUnique("Rank")),
         selectCtl(root, "unit", "Unit", getUnique("Unit")),
@@ -631,9 +677,9 @@
     root.appendChild(body);
     root.appendChild(foot);
 
-    // Drawer once
-    if (!document.getElementById("rosterDrawerMask")) {
-      document.body.appendChild(drawerShell());
+    // Modal once
+    if (!document.getElementById("rosterModalMask")) {
+      document.body.appendChild(modalShell());
     }
   }
 
@@ -647,28 +693,28 @@
     state.updatedAt = json.updatedAt || null;
 
     state.members = (json.members || [])
-  .map(m => ({
-    MemberId: norm(m.MemberId),
-    BadgeNumber: norm(m.BadgeNumber),
-    Callsign: norm(m.Callsign),
-    FirstName: norm(m.FirstName),
-    LastName: norm(m.LastName),
-    DisplayName: norm(m.DisplayName),
-    Rank: norm(m.Rank),
-    Unit: norm(m.Unit),
-    Status: norm(m.Status),
-    DiscordHandle: norm(m.DiscordHandle),
-    PhotoUrl: norm(m.PhotoUrl),
-    JoinedDate: norm(m.JoinedDate),
-    Certifications: norm(m.Certifications),
-    Bio: norm(m.Bio),
-    Notes: norm(m.Notes),
-  }))
-  // ✅ Remove “empty lines” (no DisplayName AND no First/Last)
-  .filter(m => {
-    const name = displayName(m);
-    return name && name.length >= 2; // keeps real names, drops blank rows
-  });
+      .map(m => ({
+        MemberId: norm(m.MemberId || m.ID),
+        BadgeNumber: norm(m.BadgeNumber || m.Badge || m.BadgeNum),
+        Callsign: norm(m.Callsign || m.CallSign),
+        FirstName: norm(m.FirstName || m.First),
+        LastName: norm(m.LastName || m.Last),
+        DisplayName: norm(m.DisplayName || m.Name),
+        Rank: norm(m.Rank || m.PoliceRank),
+        Unit: norm(m.Unit || m.Division),
+        Status: norm(m.Status),
+        DiscordHandle: norm(m.DiscordHandle || m.Discord),
+        PhotoUrl: norm(m.PhotoUrl || m.Photo || m.ImageUrl),
+        JoinedDate: norm(m.JoinedDate || m.Joined),
+        Certifications: norm(m.Certifications || m.Certs),
+        Bio: norm(m.Bio),
+        Notes: norm(m.Notes),
+      }))
+      // ✅ Hide empty lines with no usable name
+      .filter(m => {
+        const name = displayName(m);
+        return name && name.length >= 2;
+      });
 
     render(root);
     root.querySelectorAll(".btn").forEach(b => b.disabled = false);
@@ -682,6 +728,11 @@
 
     const app = el("div", { id:"lspdRoster" }, []);
     mount.appendChild(app);
+
+    // Ensure modal exists even if load fails
+    if (!document.getElementById("rosterModalMask")) {
+      document.body.appendChild(modalShell());
+    }
 
     load(app).catch(err => {
       console.error(err);
