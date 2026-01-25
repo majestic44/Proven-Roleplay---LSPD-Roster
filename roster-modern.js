@@ -163,28 +163,40 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
 
       #lspdRoster{
         ${
-  DEMO_MODE
-    ? `
-      width: min(1320px, 100%);
-      min-height: 720px;
-      height: auto;
-      max-height: calc(100vh - 60px);
+          DEMO_MODE
+        ? `
+          width: min(1320px, 100%);
+          min-height: 720px;
+          height: auto;
+          max-height: calc(100vh - 60px);
+        `
+       : `
+      width: min(1180px, calc(100% - 10px));
+      height: 100%;
+      margin: 0 auto;
     `
-    : `
-      width: calc(100% - 10px);
-      height:100%;
-      margin-left: 5px;
-      margin-right: 5px;
-    `
-}
+    }
         display:flex;
         flex-direction:column;
         gap:12px;
         padding: 14px;
-        border: 1px solid var(--mdt-line);
+        border: 1px solid ${
+  DEMO_MODE
+    ? "var(--mdt-line)"
+    : "rgba(103,179,255,0.25)"
+};
+box-shadow: ${
+  DEMO_MODE
+    ? "var(--shadow)"
+    : "0 0 0 1px rgba(103,179,255,0.12)"
+};
         border-radius: var(--r22);
         box-shadow: var(--shadow);
-        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        background: ${
+          DEMO_MODE
+         ? "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.08))"
+         : "linear-gradient(180deg, rgba(8,29,55,0.85), rgba(8,29,55,0.70))"
+  };
         overflow:hidden;
       }
 
