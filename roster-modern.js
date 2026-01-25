@@ -171,7 +171,7 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
           max-height: calc(100vh - 60px);
         `
        : `
-      width: min(1180px, calc(100% - 10px));
+      width: min(1280px, calc(100% - 10px));
       height: 100%;
       margin: 0 auto;
     `
@@ -194,8 +194,8 @@ box-shadow: ${
         box-shadow: var(--shadow);
         background: ${
           DEMO_MODE
-         ? "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.08))"
-         : "linear-gradient(180deg, rgba(8,29,55,0.85), rgba(8,29,55,0.70))"
+         ? "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.16))"
+         : "linear-gradient(180deg, rgba(8,29,55,0.95), rgba(8,29,55,0.80))"
   };
         overflow:hidden;
       }
