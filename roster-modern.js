@@ -19,7 +19,7 @@
   const DEMO_BADGE = (document.documentElement.dataset.demo || "on").toLowerCase() !== "off";
 
   const WEB_MODAL_W = 980;   // web view modal width (px)
-const EMBED_MODAL_W = 820; // embed view modal width (px)
+const EMBED_MODAL_W = 720; // embed view modal width (px)
 
   const RANK_ORDER = [
     "Chief",
@@ -113,8 +113,8 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
   const injectStyles = () => {
     const css = `
       :root{
-        --mdt-bg: #081d37;
-        --mdt-panel: rgba(10,18,34,0.92);
+        --mdt-bg: #081d370a;
+        --mdt-panel: rgba(10, 18, 34, 0.1);
         --mdt-line: rgba(255,255,255,0.10);
         --mdt-text: #eaf2ff;
         --mdt-muted: #a9b8d3;
@@ -133,7 +133,7 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
         margin:0;
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
         color: var(--mdt-text);
-        background: ${DEMO_MODE ? "#081d37" : "transparent"};
+        background: ${DEMO_MODE ? "#081d370a" : "transparent"};
       }
 
       #lspd-roster-root{
@@ -164,25 +164,39 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
       #lspdRoster{
         ${
           DEMO_MODE
-            ? `
-        width: min(1320px, 100%);
-        min-height: 720px;
-        height: auto;
-        max-height: calc(100vh - 60px);
+        ? `
+          width: min(1320px, 100%);
+          min-height: 720px;
+          height: auto;
+          max-height: calc(100vh - 60px);
         `
-            : `
-        width:100%;
-        height:100%;
-        `
-        }
+       : `
+      width: min(1600px, calc(100% - 10px));
+      height: 100%;
+      margin: 0 auto;
+    `
+    }
         display:flex;
         flex-direction:column;
         gap:12px;
         padding: 14px;
-        border: 1px solid var(--mdt-line);
+        border: 1px solid ${
+  DEMO_MODE
+    ? "var(--mdt-line)"
+    : "rgba(103,179,255,0.25)"
+};
+box-shadow: ${
+  DEMO_MODE
+    ? "var(--shadow)"
+    : "0 0 0 1px rgba(103,179,255,0.12)"
+};
         border-radius: var(--r22);
         box-shadow: var(--shadow);
-        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        background: ${
+          DEMO_MODE
+         ? "linear-gradient(180deg, rgba(255,255,255,0.5), rgba(8,29,55,0.5))"
+         : "linear-gradient(180deg, rgba(8,29,55,0.5), rgba(8,29,55,0.5))"
+  };
         overflow:hidden;
       }
 
@@ -271,7 +285,8 @@ const EMBED_MODAL_W = 820; // embed view modal width (px)
 
       .body{
         padding: 0 10px 10px;
-        overflow:auto;
+        overflow-y: ${DEMO_MODE ? "auto" : "hidden"};
+        overflow-x: hidden;
         border-radius: var(--r22);
       }
 
