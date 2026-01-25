@@ -113,8 +113,8 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
   const injectStyles = () => {
     const css = `
       :root{
-        --mdt-bg: #081d37;
-        --mdt-panel: rgba(10,18,34,0.92);
+        --mdt-bg: #081d370a;
+        --mdt-panel: rgba(10, 18, 34, 0.1);
         --mdt-line: rgba(255,255,255,0.10);
         --mdt-text: #eaf2ff;
         --mdt-muted: #a9b8d3;
@@ -133,7 +133,7 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
         margin:0;
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
         color: var(--mdt-text);
-        background: ${DEMO_MODE ? "#081d37" : "transparent"};
+        background: ${DEMO_MODE ? "#081d370a" : "transparent"};
       }
 
       #lspd-roster-root{
@@ -171,7 +171,7 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
           max-height: calc(100vh - 60px);
         `
        : `
-      width: min(1280px, calc(100% - 10px));
+      width: min(1600px, calc(100% - 10px));
       height: 100%;
       margin: 0 auto;
     `
@@ -194,8 +194,8 @@ box-shadow: ${
         box-shadow: var(--shadow);
         background: ${
           DEMO_MODE
-         ? "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.16))"
-         : "linear-gradient(180deg, rgba(8,29,55,0.95), rgba(8,29,55,0.80))"
+         ? "linear-gradient(180deg, rgba(255,255,255,0.5), rgba(8,29,55,0.5))"
+         : "linear-gradient(180deg, rgba(8,29,55,0.5), rgba(8,29,55,0.5))"
   };
         overflow:hidden;
       }
