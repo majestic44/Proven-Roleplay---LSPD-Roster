@@ -163,18 +163,20 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
 
       #lspdRoster{
         ${
-          DEMO_MODE
-            ? `
-        width: min(1320px, 100%);
-        min-height: 720px;
-        height: auto;
-        max-height: calc(100vh - 60px);
-        `
-            : `
-        width:100%;
-        height:100%;
-        `
-        }
+  DEMO_MODE
+    ? `
+      width: min(1320px, 100%);
+      min-height: 720px;
+      height: auto;
+      max-height: calc(100vh - 60px);
+    `
+    : `
+      width: calc(100% - 10px);
+      height:100%;
+      margin-left: 5px;
+      margin-right: 5px;
+    `
+}
         display:flex;
         flex-direction:column;
         gap:12px;
@@ -271,7 +273,8 @@ const EMBED_MODAL_W = 720; // embed view modal width (px)
 
       .body{
         padding: 0 10px 10px;
-        overflow:auto;
+        overflow-y: ${DEMO_MODE ? "auto" : "hidden"};
+        overflow-x: hidden;
         border-radius: var(--r22);
       }
 
