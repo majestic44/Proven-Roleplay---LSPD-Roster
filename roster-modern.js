@@ -19,7 +19,7 @@
   const DEMO_BADGE = (document.documentElement.dataset.demo || "on").toLowerCase() !== "off";
 
   const WEB_MODAL_W = 980;   // web view modal width (px)
-const EMBED_MODAL_W = 720; // embed view modal width (px)
+const EMBED_MODAL_W = 820; // embed view modal width (px)
 
   const RANK_ORDER = [
     "Chief",
@@ -194,7 +194,7 @@ box-shadow: ${
         box-shadow: var(--shadow);
         background: ${
           DEMO_MODE
-         ? "linear-gradient(180deg, rgba(255,255,255,0.5), rgba(8,29,55,0.5))"
+         ? "linear-gradient(180deg, rgba(18, 50, 88, 0.5), rgba(8,29,55,0.5))"
          : "linear-gradient(180deg, rgba(8,29,55,0.5), rgba(8,29,55,0.5))"
   };
         overflow:hidden;
