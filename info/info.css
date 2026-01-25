@@ -232,3 +232,58 @@ body{
   .sidebar{display:none;}
   .searchWrap{min-width: 100%;}
 }
+
+/* ================================
+   INDEX MODULE BUTTONS (MDT STYLE)
+   ================================ */
+
+.card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.04),
+    rgba(0,0,0,0.18)
+  );
+
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+
+  color: #eaf2ff;
+  cursor: pointer;
+
+  transition: 
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.08s ease;
+}
+
+.card:hover {
+  border-color: rgba(103,179,255,0.45);
+  background: linear-gradient(
+    180deg,
+    rgba(103,179,255,0.12),
+    rgba(0,0,0,0.22)
+  );
+}
+
+.card:active {
+  transform: translateY(1px);
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: #a9b8d3;
+  line-height: 1.4;
+}

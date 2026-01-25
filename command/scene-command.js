@@ -9,11 +9,17 @@
     intro:
       "This handbook section establishes how command is formed and transferred on incidents. The goal is simple: one plan, one voice, and clear accountability. Command should be announced early, transferred cleanly, and recorded in major incident reporting.",
 
+    approval: {
+      status: "Draft", // Template | Draft | WIP | Approved
+      approvedBy: "", // set when approved (e.g., "Chief Smith")
+      approvedDate: "", // optional (e.g., "2026-01-24")
+      reviewedBy: "", // optional
+      reviewedDate: "", // optional
+    },
+
     meta: [
-      { k: "Status", v: "Draft" },
+      { k: "Effective", v: "—" },
       { k: "Revision", v: "v1.0" },
-      { k: "Owner", v: "Command Staff" },
-      { k: "Applies To", v: "All sworn personnel" },
     ],
 
     sections: [
@@ -278,12 +284,83 @@
     }
   }
 
+function deriveStatus(approval){
+  const a = approval || {};
+  const hasApproval =
+    String(a.approvedBy || "").trim() &&
+    String(a.approvedDate || "").trim();
+
+  if (hasApproval) return "Approved";
+
+  const s = String(a.status || "").trim();
+  return s || "Draft";
+}
+
+function statusClass(s){
+  const v = String(s || "").toUpperCase();
+  if (v === "APPROVED") return "stApproved";
+  if (v === "WIP" || v === "IN PROGRESS") return "stWip";
+  return "stDraft";
+}
+
+function renderApproval(boxEl, approval){
+  const a = approval || {};
+  const status = deriveStatus(a);
+
+  const rows = [];
+  rows.push({ k: "Status", v: status, isStatus: true });
+
+  // Only show if provided
+  if (String(a.approvedBy || "").trim()) rows.push({ k: "Approved By", v: a.approvedBy });
+  if (String(a.approvedDate || "").trim()) rows.push({ k: "Approved Date", v: a.approvedDate });
+  if (String(a.reviewedBy || "").trim()) rows.push({ k: "Reviewed By", v: a.reviewedBy });
+  if (String(a.reviewedDate || "").trim()) rows.push({ k: "Reviewed Date", v: a.reviewedDate });
+
+  boxEl.innerHTML = "";
+  for (const r of rows) {
+    const div = document.createElement("div");
+    div.className = "metaRow";
+
+    if (r.isStatus) {
+      div.innerHTML = `
+        <div class="metaK">${escapeHtml(r.k)}</div>
+        <div class="metaV">
+          <span class="chip chipStatus ${statusClass(status)}">${escapeHtml(r.v)}</span>
+        </div>
+      `;
+    } else {
+      div.innerHTML = `
+        <div class="metaK">${escapeHtml(r.k)}</div>
+        <div class="metaV">${escapeHtml(r.v)}</div>
+      `;
+    }
+
+    boxEl.appendChild(div);
+  }
+
+  return status;
+}
+
+function appendMetaRows(boxEl, meta){
+  for (const row of meta || []) {
+    const div = document.createElement("div");
+    div.className = "metaRow";
+    div.innerHTML = `
+      <div class="metaK">${escapeHtml(row.k)}</div>
+      <div class="metaV">${escapeHtml(row.v)}</div>
+    `;
+    boxEl.appendChild(div);
+  }
+}
+
   function boot(){
     $("title").textContent = norm(DOC.title) || "Command Handbook";
     $("subtitle").textContent = norm(DOC.subtitle) || "";
     $("footerNote").textContent = norm(DOC.footerNote) || "";
 
-    renderMeta(DOC.meta);
+    const metaBox = document.getElementById("metaBox");
+    renderApproval(metaBox, DOC.approval);
+    appendMetaRows(metaBox, DOC.meta);
     renderIntro();
     renderQuickNav(DOC.sections);
     renderAccordion(DOC.sections);

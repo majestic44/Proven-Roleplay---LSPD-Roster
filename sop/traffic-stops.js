@@ -8,11 +8,17 @@
     intro:
       "Traffic stops are one of the most common and highest-risk interactions in routine patrol. This SOP establishes a consistent and professional baseline for initiating stops, communicating with dispatch, conducting safe approaches, and documenting outcomes.",
 
+    approval: {
+      status: "Draft", // Template | Draft | WIP | Approved
+      approvedBy: "", // set when approved (e.g., "Chief Smith")
+      approvedDate: "", // optional (e.g., "2026-01-24")
+      reviewedBy: "", // optional
+      reviewedDate: "", // optional
+    },
+
     meta: [
-      { k: "Status", v: "Draft" },
       { k: "Effective", v: "—" },
       { k: "Revision", v: "v1.0" },
-      { k: "Approved By", v: "—" },
     ],
 
     sections: [
@@ -274,12 +280,83 @@
     }
   }
 
+function deriveStatus(approval){
+  const a = approval || {};
+  const hasApproval =
+    String(a.approvedBy || "").trim() &&
+    String(a.approvedDate || "").trim();
+
+  if (hasApproval) return "Approved";
+
+  const s = String(a.status || "").trim();
+  return s || "Draft";
+}
+
+function statusClass(s){
+  const v = String(s || "").toUpperCase();
+  if (v === "APPROVED") return "stApproved";
+  if (v === "WIP" || v === "IN PROGRESS") return "stWip";
+  return "stDraft";
+}
+
+function renderApproval(boxEl, approval){
+  const a = approval || {};
+  const status = deriveStatus(a);
+
+  const rows = [];
+  rows.push({ k: "Status", v: status, isStatus: true });
+
+  // Only show if provided
+  if (String(a.approvedBy || "").trim()) rows.push({ k: "Approved By", v: a.approvedBy });
+  if (String(a.approvedDate || "").trim()) rows.push({ k: "Approved Date", v: a.approvedDate });
+  if (String(a.reviewedBy || "").trim()) rows.push({ k: "Reviewed By", v: a.reviewedBy });
+  if (String(a.reviewedDate || "").trim()) rows.push({ k: "Reviewed Date", v: a.reviewedDate });
+
+  boxEl.innerHTML = "";
+  for (const r of rows) {
+    const div = document.createElement("div");
+    div.className = "metaRow";
+
+    if (r.isStatus) {
+      div.innerHTML = `
+        <div class="metaK">${escapeHtml(r.k)}</div>
+        <div class="metaV">
+          <span class="chip chipStatus ${statusClass(status)}">${escapeHtml(r.v)}</span>
+        </div>
+      `;
+    } else {
+      div.innerHTML = `
+        <div class="metaK">${escapeHtml(r.k)}</div>
+        <div class="metaV">${escapeHtml(r.v)}</div>
+      `;
+    }
+
+    boxEl.appendChild(div);
+  }
+
+  return status;
+}
+
+function appendMetaRows(boxEl, meta){
+  for (const row of meta || []) {
+    const div = document.createElement("div");
+    div.className = "metaRow";
+    div.innerHTML = `
+      <div class="metaK">${escapeHtml(row.k)}</div>
+      <div class="metaV">${escapeHtml(row.v)}</div>
+    `;
+    boxEl.appendChild(div);
+  }
+}
+
   function boot(){
     $("sopTitle").textContent = norm(SOP.title) || "SOP";
     $("sopSubtitle").textContent = norm(SOP.subtitle) || "";
     $("footerNote").textContent = norm(SOP.footerNote) || "";
 
-    renderMeta(SOP.meta);
+    const metaBox = document.getElementById("metaBox");
+    renderApproval(metaBox, SOP.approval);
+    appendMetaRows(metaBox, SOP.meta);
     renderIntro();
     renderQuickNav(SOP.sections);
     renderAccordion(SOP.sections);
