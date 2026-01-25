@@ -19,7 +19,7 @@
   const DEMO_BADGE = (document.documentElement.dataset.demo || "on").toLowerCase() !== "off";
 
   const WEB_MODAL_W = 980;   // web view modal width (px)
-const EMBED_MODAL_W = 820; // embed view modal width (px)
+const EMBED_MODAL_W = 720; // embed view modal width (px)
 
   const RANK_ORDER = [
     "Chief",
