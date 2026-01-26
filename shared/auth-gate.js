@@ -1,29 +1,36 @@
-(async function(){
-  // Allow list: these pages stay public
-  const PUBLIC_PREFIXES = [
-    "/index.html",
-    "/roster/",        // Web roster folder
-    "/embed/",         // if you have embed elsewhere
-  ];
+(async function () {
+  const REQUIRED = String(window.LSPD_REQUIRED_ROLE || "").toLowerCase(); 
+  // "" = no restriction
 
-  const path = location.pathname;
+  // Where to send people if they don't have access
+  const DENY_REDIRECT = window.LSPD_DENY_REDIRECT || "/"; // landing page
+  const LOGIN_REDIRECT = window.LSPD_LOGIN_REDIRECT || "/"; // landing page
 
-  // If path starts with allowed prefixes, do nothing
-  if (PUBLIC_PREFIXES.some(p => path === p || path.startsWith(p))) return;
+  // role ranking
+  const rank = (r) => {
+    r = String(r || "").toLowerCase();
+    if (r === "command") return 3;
+    if (r === "staff") return 2;
+    if (r === "member") return 1;
+    return 0; // not logged in / unknown
+  };
 
-  // If AUTH not configured yet, just bounce to landing
-  if (!window.LSPD_AUTH){
-    location.href = `/index.html?next=${encodeURIComponent(path)}`;
+  // If page isn't protected, do nothing
+  if (!REQUIRED) return;
+
+  // Check session
+  const me = await (window.LSPD_AUTH?.me?.() ?? Promise.resolve({ authed: false }));
+
+  if (!me.authed) {
+    // not logged in
+    location.href = LOGIN_REDIRECT;
     return;
   }
 
-  const res = await window.LSPD_AUTH.me();
-  if (!res || !res.authed){
-    location.href = `/index.html?next=${encodeURIComponent(path)}`;
-    return;
-  }
+  const userRole = String(me.role || "").toLowerCase();
 
-  // expose role for page logic
-  window.LSPD_ROLE = res.role || "officer";
-  window.LSPD_USER = res.user || "";
+  // REQUIRED is the minimum role (member/staff/command)
+  if (rank(userRole) < rank(REQUIRED)) {
+    location.href = DENY_REDIRECT;
+  }
 })();
