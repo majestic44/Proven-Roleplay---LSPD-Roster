@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Command Dashboard</title>
+
+  <!-- Your existing styling -->
+  <link rel="stylesheet" href="./info/info.css" />
+  <link rel="stylesheet" href="./sop/sop-template.css" />
+    <link rel="stylesheet" href="./shared/command.css" />
+
+  <!-- If your Command Dashboard CSS is not already included globally,
+       put it in shared/command.css and uncomment this -->
+  <!-- <link rel="stylesheet" href="./shared/command.css" /> -->
+
+  <!-- Quick inline support if you want (optional): -->
+  <style>
+    /* If you already pasted the cmd CSS into a stylesheet, remove this block. */
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="./info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </button>
+
+        <button class="navItem" data-link="./policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </button>
+
+        <button class="navItem" data-link="./ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem" data-link="./sop/index.html">
+          SOP / Procedures
+          <span class="sub">Operational procedures index</span>
+        </button>
+
+        <button class="navItem" data-link="./webroster.html">
+          Web Roster
+          <span class="sub">Roster • Embed</span>
+        </button>
+
+        <!-- Command -->
+        <button class="navItem active" data-link="./command.html">
+          Command Dashboard
+          <span class="sub">Admin tools • Status • Users</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot" id="cmdSideFoot">Loading…</div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1">Command Dashboard</div>
+          <div class="h2">Operations • Access • Publishing</div>
+        </div>
+
+        <div class="topRight">
+          <div class="pill" id="authPill" style="display:none;"></div>
+          <button class="btnSmall" id="btnLogout" type="button" style="display:none;">Logout</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div class="panelHeaderLeft">
+            <div class="panelKicker">Los Santos Police Department</div>
+            <div class="panelTitle">Command Tools</div>
+          </div>
+
+          <div class="panelHeaderRight">
+            <div class="metaBox" id="metaBox">
+              <div class="metaRow">
+                <div class="metaKey">Status</div>
+                <div class="metaVal" id="sysStatus">Loading…</div>
+              </div>
+              <div class="metaRow">
+                <div class="metaKey">Auth API</div>
+                <div class="metaVal" id="authApiText">—</div>
+              </div>
+              <div class="metaRow">
+                <div class="metaKey">Docs</div>
+                <div class="metaVal" id="docsText">Static (GitHub)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contentPad">
+          <div class="cmdGrid">
+
+            <!-- LEFT: Users -->
+            <div class="cmdCard">
+              <div class="cmdCardHdr">
+                <div>
+                  <div class="cmdTitle">User Management</div>
+                  <div class="cmdSub">Create / disable accounts and control access levels.</div>
+                </div>
+                <button class="cmdBtn ghost" id="btnRefreshUsers" type="button">Refresh</button>
+              </div>
+
+              <div class="cmdRow">
+                <button class="cmdBtn" id="btnOpenCreateUser" type="button">Create User</button>
+                <button class="cmdBtn ghost" id="btnOpenResetPass" type="button">Reset Password</button>
+              </div>
+
+              <div class="cmdTableWrap">
+                <table class="cmdTable">
+                  <thead>
+                    <tr>
+                      <th style="width:34%;">Username</th>
+                      <th style="width:20%;">Role</th>
+                      <th style="width:14%;">Active</th>
+                      <th style="width:32%; text-align:right;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersBody">
+                    <tr><td colspan="4">Loading…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="cmdHint muted">
+                Roles: <b>command</b> (full), <b>staff</b> (limited), <b>member</b> (view-only).
+              </div>
+
+              <div class="cmdErr" id="cmdErr" style="display:none;"></div>
+            </div>
+
+            <!-- RIGHT: Quick links + Publishing -->
+            <div class="cmdCard">
+              <div class="cmdCardHdr">
+                <div>
+                  <div class="cmdTitle">Quick Actions</div>
+                  <div class="cmdSub">Common tools and status checks.</div>
+                </div>
+              </div>
+
+              <div class="cmdRow">
+                <button class="cmdBtn" id="btnOpenSopIndex" type="button">Open SOP Index</button>
+                <button class="cmdBtn ghost" id="btnOpenPolicies" type="button">Open Policies</button>
+                <button class="cmdBtn ghost" id="btnOpenRanks" type="button">Open Ranks</button>
+              </div>
+
+              <div class="cmdCard" style="margin-top:14px;">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Publishing</div>
+                    <div class="cmdSub">How content gets updated.</div>
+                  </div>
+                </div>
+
+                <div class="muted" style="font-size:12px; line-height:1.5;">
+                  Right now your site pages are static. “Publishing” is done by updating files in GitHub.
+                  Next we’ll add:
+                  <ul style="margin:8px 0 0 18px;">
+                    <li>Draft vs Approved visibility rules</li>
+                    <li>Command-only edit workflow (D1-backed)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="cmdCard" style="margin-top:14px;">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">System</div>
+                    <div class="cmdSub">Session and environment info.</div>
+                  </div>
+                </div>
+
+                <div class="metaBox">
+                  <div class="metaRow">
+                    <div class="metaKey">Logged In As</div>
+                    <div class="metaVal" id="meUser">—</div>
+                  </div>
+                  <div class="metaRow">
+                    <div class="metaKey">Role</div>
+                    <div class="metaVal" id="meRole">—</div>
+                  </div>
+                  <div class="metaRow">
+                    <div class="metaKey">Token</div>
+                    <div class="metaVal" id="tokenState">—</div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <footer class="panelFoot">
+          <div class="muted" id="updatedText">Last updated: —</div>
+          <div class="muted">Command Dashboard</div>
+        </footer>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Command functions should follow server staff direction and department policy.</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Auth -->
+  <script src="./shared/auth-config.js"></script>
+  <script src="./shared/auth-client.js"></script>
+  <script src="./shared/auth-gate.js"></script>
+  <script>
+    // Command-only page gate
+    window.LSPD_REQUIRED_ROLE = "command";
+  </script>
+
+  <!-- Dashboard Logic -->
+  <script src="./shared/command.js"></script>
+
+  <script>
+    document.querySelectorAll(".navItem[data-link]").forEach(b => {
+      b.addEventListener("click", () => (window.location.href = b.dataset.link));
+    });
+  </script>
+</body>
+</html>

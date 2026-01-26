@@ -1,0 +1,289 @@
+:root{
+  --bg: #081d37;
+  --bg2: #050a14;
+  --panel: rgba(10,18,34,0.92);
+  --panel2: rgba(7,13,25,0.72);
+  --line: rgba(255,255,255,0.12);
+  --line2: rgba(103,179,255,0.25);
+  --text: #eaf2ff;
+  --muted: rgba(234,242,255,0.70);
+  --blue: #67b3ff;
+  --amber: #ffaa3c;
+  --shadow: 0 18px 60px rgba(0,0,0,0.45);
+  --r: 18px;
+  --r2: 22px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%; margin:0; color-scheme:dark}
+body{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(103,179,255,.22), transparent 55%),
+    radial-gradient(900px 600px at 85% 25%, rgba(255,170,60,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
+}
+
+.app{
+  height:100%;
+  display:grid;
+  grid-template-columns: 320px 1fr;
+}
+
+.sidebar{
+  border-right: 1px solid var(--line);
+  background: rgba(0,0,0,0.22);
+  backdrop-filter: blur(10px);
+  padding: 18px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.brand .kicker{
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color: var(--muted);
+  font-weight: 900;
+}
+.brand .title{
+  font-size:18px;
+  font-weight: 950;
+  letter-spacing:.04em;
+  margin-top:6px;
+}
+
+.nav{display:flex; flex-direction:column; gap:10px;}
+.navItem{
+  text-align:left;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  font-weight: 900;
+  cursor:pointer;
+}
+.navItem .sub{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  color: var(--muted);
+  font-weight: 800;
+  letter-spacing:.02em;
+}
+.navItem.active{
+  border-color: rgba(103,179,255,0.35);
+  background: linear-gradient(180deg, rgba(103,179,255,0.16), rgba(0,0,0,0.18));
+}
+.navItem:disabled{opacity:.55; cursor:not-allowed;}
+
+.sideFoot{
+  margin-top:auto;
+  color: var(--muted);
+  font-size:12px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.main{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding: 18px 18px 14px;
+  gap: 14px;
+  overflow:hidden;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.10));
+  box-shadow: var(--shadow);
+}
+
+.h1{font-size:20px; font-weight:950; letter-spacing:.04em;}
+.h2{margin-top:4px; font-size:12px; color: var(--muted); letter-spacing:.08em; text-transform:uppercase; font-weight:900;}
+
+.searchWrap{
+  display:flex; align-items:center; gap:10px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  padding: 10px 12px;
+  min-width: min(520px, 92vw);
+}
+.searchIcon{color: var(--muted); font-weight:900;}
+.search{
+  width:100%;
+  border:none;
+  outline:none;
+  background: transparent;
+  color: var(--text);
+  font-weight:800;
+}
+
+.panel{
+  flex:1;
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.10));
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.tabs{
+  display:flex;
+  gap:10px;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.tab{
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  padding: 10px 12px;
+  font-weight: 950;
+  cursor:pointer;
+}
+.tab.active{
+  border-color: rgba(103,179,255,0.40);
+  background: rgba(103,179,255,0.14);
+}
+
+.tableWrap{
+  flex:1;
+  overflow:auto;
+  padding: 0 14px 14px;
+}
+
+.tbl{
+  width:100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.tbl thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  text-align:left;
+  padding: 12px 12px;
+  background: rgba(0,0,0,0.35);
+  border-bottom: 1px solid var(--line);
+  color: rgba(234,242,255,0.86);
+  font-size:12px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  font-weight: 950;
+}
+.tbl tbody td{
+  padding: 12px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  vertical-align:top;
+}
+.codePill{
+  display:inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(103,179,255,0.32);
+  background: rgba(103,179,255,0.12);
+  font-weight: 950;
+  letter-spacing:.04em;
+}
+.desc{
+  color: rgba(234,242,255,0.92);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.empty{
+  margin-top: 16px;
+  border: 1px dashed rgba(255,255,255,0.16);
+  border-radius: 14px;
+  padding: 18px;
+  color: var(--muted);
+}
+
+.panelFoot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  background: rgba(0,0,0,0.18);
+}
+.muted{color: var(--muted); font-weight:800;}
+.pageFoot{color: var(--muted); font-size:12px; padding: 0 4px;}
+
+@media (max-width: 980px){
+  .app{grid-template-columns: 1fr;}
+  .sidebar{display:none;}
+  .searchWrap{min-width: 100%;}
+}
+
+/* ================================
+   INDEX MODULE BUTTONS (MDT STYLE)
+   ================================ */
+
+.card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.04),
+    rgba(0,0,0,0.18)
+  );
+
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+
+  color: #eaf2ff;
+  cursor: pointer;
+
+  transition: 
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.08s ease;
+}
+
+.card:hover {
+  border-color: rgba(103,179,255,0.45);
+  background: linear-gradient(
+    180deg,
+    rgba(103,179,255,0.12),
+    rgba(0,0,0,0.22)
+  );
+}
+
+.card:active {
+  transform: translateY(1px);
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: #a9b8d3;
+  line-height: 1.4;
+}

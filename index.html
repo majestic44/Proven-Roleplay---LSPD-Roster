@@ -1,147 +1,70 @@
 <!doctype html>
-<html lang="en" data-view="web" data-notes="off" data-demo="off">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LSPD Roster</title>
+  <title>Los Santos Police Department</title>
 
-  <style>
-    :root{
-      color-scheme: dark;
-      --bg: #081d37;
-      --panel: rgba(10,18,34,0.92);
-      --line: rgba(255,255,255,0.12);
-      --text: #eaf2ff;
-      --muted: rgba(234,242,255,0.70);
-      --shadow: 0 18px 60px rgba(0,0,0,0.45);
-      --r: 18px;
-    }
-
-    html,body{height:100%;margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);}
-
-    body{
-      background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(103,179,255,.22), transparent 55%),
-        radial-gradient(900px 600px at 85% 22%, rgba(255,170,60,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg), #050a14);
-    }
-
-    .page{
-      min-height: 100vh;
-      display:flex;
-      flex-direction:column;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,0.22);
-      backdrop-filter: blur(10px);
-    }
-
-    .brand{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-    }
-    .brand .kicker{
-      font-size:12px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color: var(--muted);
-      font-weight: 900;
-    }
-    .brand .title{
-      font-size:18px;
-      font-weight: 900;
-      letter-spacing:.04em;
-    }
-
-    .right{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-end;
-      gap:6px;
-      font-size:12px;
-      color: var(--muted);
-      text-align:right;
-    }
-
-    .content{
-      flex:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 22px;
-    }
-
-    .panel{
-      width: min(1400px, 96vw);
-      height: min(900px, 88vh);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    #lspd-roster-root{width:100%;height:100%;}
-
-    .footer{
-      padding: 12px 22px;
-      border-top: 1px solid var(--line);
-      background: rgba(0,0,0,0.18);
-      color: var(--muted);
-      font-size: 12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .pill{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-      padding: 6px 10px;
-      border-radius: 999px;
-      color: var(--text);
-      font-weight: 800;
-      letter-spacing:.04em;
-    }
-  </style>
+  <!-- reuse your existing base styling -->
+  <link rel="stylesheet" href="./info/info.css" />
+  <link rel="stylesheet" href="./shared/landing.css" />
 </head>
 
 <body>
-  <div class="page">
-    <div class="topbar">
-      <div class="brand">
-        <div class="kicker">Los Santos Police Department</div>
-        <div class="title">Department Roster</div>
+  <main class="landing">
+    <div class="landingInner">
+      <div class="landingTitle">Los Santos Police Department</div>
+
+      <div class="landingActions">
+        <a class="landingBtn" href="./webroster.html">Open Web Roster</a>
+        <button class="landingBtn ghost" id="openLogin" type="button">Login</button>
       </div>
 
-      <div class="right">
-        <div class="pill">Web View</div>
-        <div>Data Source: Google Sheets</div>
-      </div>
-    </div>
-
-    <div class="content">
-      <div class="panel">
-        <div id="lspd-roster-root"></div>
+      <div class="landingMuted">
+        Access to SOPs, Policies, Rank Structure, and Command tools requires login.
       </div>
     </div>
+  </main>
 
-    <div class="footer">
-      <div>Tip: Toggle notes with <code>data-notes="on"</code></div>
-      <div>Tip: Hide demo with <code>data-demo="off"</code></div>
+  <!-- Login Modal -->
+  <div class="modalScrim" id="loginScrim" style="display:none;">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-label="Login">
+      <div class="modalHdr">
+        <div class="modalTitle">LSPD Secure Access</div>
+        <button class="modalX" id="closeLogin" type="button">✕</button>
+      </div>
+
+      <div class="loginRow1">
+        <label class="loginLabel" for="loginUser">Username</label>
+        <input class="loginInput" id="loginUser" autocomplete="username" />
+      </div>
+
+      <div class="loginRow2">
+        <label class="loginLabel" for="loginPass">Password</label>
+        <input class="loginInput" id="loginPass" type="password" autocomplete="current-password" />
+      </div>
+
+      <div class="loginActions">
+        <button class="loginBtn" id="doLogin" type="button">Login</button>
+        <button class="loginBtn ghost" id="cancelLogin" type="button">Cancel</button>
+      </div>
+
+      <div class="loginErr" id="loginErr" style="display:none;"></div>
+
+      <div class="landingMuted" style="margin-top:12px;">
+        Authorized personnel only.
+      </div>
     </div>
   </div>
 
-  <script src="./roster-modern.js"></script>
+<!-- Proven Roleplay Badge -->
+<a class="prBadge" id="prBadge" href="https://provenrp.xyz" target="_blank" rel="noopener">
+<img src="./assets/proven-roleplay.gif" alt="Proven Roleplay" />
+<div class="prText">Proven Roleplay</div>
+</a>
+
+  <script src="./shared/auth-config.js"></script>
+  <script src="./shared/auth-client.js"></script>
+  <script src="./shared/landing.js"></script>
 </body>
 </html>

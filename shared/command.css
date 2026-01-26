@@ -1,0 +1,144 @@
+/* Command Dashboard additions – keeps your current look */
+
+.btnSmall{
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.18);
+  color:#eaf2ff;
+  padding: 10px 12px;
+  font-weight: 900;
+  letter-spacing:.04em;
+  text-transform: uppercase;
+  cursor:pointer;
+}
+.btnSmall:hover{ background: rgba(255,255,255,0.06); }
+
+.cmdGrid{
+  display:grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 980px){
+  .cmdGrid{ grid-template-columns: 1fr; }
+}
+
+.cmdCard{
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.18));
+  padding: 14px;
+}
+
+.cmdCardHdr{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 12px;
+}
+
+.cmdTitle{
+  font-weight: 900;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.cmdSub{
+  color: rgba(234,242,255,0.70);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.cmdRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom: 12px;
+}
+
+.cmdBtn{
+  border-radius: 12px;
+  border: 1px solid rgba(103,179,255,0.45);
+  background: rgba(103,179,255,0.12);
+  color:#eaf2ff;
+  padding: 10px 12px;
+  font-weight: 900;
+  letter-spacing:.04em;
+  text-transform: uppercase;
+  cursor:pointer;
+}
+.cmdBtn:hover{ background: rgba(103,179,255,0.18); }
+.cmdBtn.ghost{
+  border-color: rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.18);
+}
+.cmdTableWrap{
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  overflow:hidden;
+}
+.cmdTable{
+  width:100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.cmdTable thead th{
+  text-align:left;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.22);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  color: rgba(234,242,255,0.85);
+  font-weight: 900;
+  letter-spacing:.03em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.cmdTable tbody td{
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  vertical-align: middle;
+}
+.cmdTable tbody tr:hover{
+  background: rgba(255,255,255,0.03);
+}
+
+.cmdActions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.cmdAct{
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.18);
+  color:#eaf2ff;
+  padding: 8px 10px;
+  font-weight: 900;
+  letter-spacing:.03em;
+  text-transform: uppercase;
+  cursor:pointer;
+  font-size: 11px;
+}
+.cmdAct:hover{ background: rgba(255,255,255,0.06); }
+.cmdAct.danger{
+  border-color: rgba(255,80,80,0.35);
+  background: rgba(255,80,80,0.10);
+}
+
+.cmdHint{
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.cmdErr{
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,80,80,0.35);
+  background: rgba(255,80,80,0.10);
+  color: #ffd6d6;
+  font-weight: 800;
+}

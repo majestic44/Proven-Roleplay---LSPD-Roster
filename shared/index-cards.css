@@ -1,0 +1,146 @@
+/* =========================================================
+   SHARED INDEX CARDS — CARDS + CHIPS + GROUPING
+   Used by: SOP, Policies, Codes, Command
+   ========================================================= */
+
+:root{
+  --idxText: #eaf2ff;
+  --idxMuted: #a9b8d3;
+  --idxLine: rgba(255,255,255,0.12);
+  --idxBlue: rgba(103,179,255,0.45);
+  --idxPanelA: rgba(255,255,255,0.04);
+  --idxPanelB: rgba(0,0,0,0.18);
+}
+
+.idxGroup{
+  border: 1px solid var(--idxLine);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  padding: 14px;
+  margin: 0 0 14px 0;
+}
+
+.idxGroupHdr{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 12px;
+}
+
+.idxGroupTitle{
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.idxGroupDesc{
+  color: var(--idxMuted);
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 4px;
+}
+
+.idxGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 900px){
+  .idxGrid{ grid-template-columns: 1fr; }
+}
+
+.idxCard{
+  appearance: none;
+  border: 1px solid var(--idxLine);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--idxPanelA), var(--idxPanelB));
+  color: var(--idxText);
+  width: 100%;
+  text-align: left;
+  padding: 14px 14px 12px 14px;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .08s ease;
+}
+
+.idxCard:hover{
+  border-color: var(--idxBlue);
+  background: linear-gradient(180deg, rgba(103,179,255,0.10), rgba(0,0,0,0.22));
+}
+
+.idxCard:active{ transform: translateY(1px); }
+
+.idxCardTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 8px;
+}
+
+.idxCardTitle{
+  font-weight: 900;
+  letter-spacing: .02em;
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.idxCardDesc{
+  color: var(--idxMuted);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+.idxChips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top: 10px;
+}
+
+.chip{
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid var(--idxLine);
+  background: rgba(0,0,0,0.20);
+  color: var(--idxText);
+  white-space: nowrap;
+}
+
+.chipScope{
+  border-color: rgba(255,170,60,0.35);
+  background: rgba(255,170,60,0.10);
+}
+
+.chipStatus{
+  border-color: rgba(103,179,255,0.35);
+  background: rgba(103,179,255,0.10);
+}
+
+.stDraft{ border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.05); }
+.stWip{ border-color: rgba(255,170,60,0.40); background: rgba(255,170,60,0.12); }
+.stApproved{ border-color: rgba(46,229,141,0.40); background: rgba(46,229,141,0.12); }
+
+/* Optional: Search bar if you enable it later */
+.idxTools{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin: 0 0 14px 0;
+}
+.idxSearch{
+  flex: 1 1 260px;
+  border-radius: 12px;
+  border: 1px solid var(--idxLine);
+  background: rgba(255,255,255,0.03);
+  color: var(--idxText);
+  padding: 10px 12px;
+  outline: none;
+}
