@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Publishing</title>
+
+  <!-- Base system CSS -->
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+
+  <!-- If these are still used by existing pages, keep them -->
+  <link rel="stylesheet" href="../css/index-cards.css" />
+
+  <!-- Command dashboard styling (cmdGrid/cmdCard/buttons/etc) -->
+  <link rel="stylesheet" href="../css/pages/command.css" />
+
+  <!-- Page-specific -->
+  <link rel="stylesheet" href="../css/pages/publisher.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="./info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </button>
+
+        <button class="navItem" data-link="./policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </button>
+
+        <button class="navItem" data-link="./ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem" data-link="./sop/index.html">
+          SOP / Procedures
+          <span class="sub">Operational procedures index</span>
+        </button>
+
+        <button class="navItem" data-link="./webroster.html">
+          Web Roster
+          <span class="sub">Roster • Embed</span>
+        </button>
+
+        <button class="navItem" data-link="./command.html">
+          Command Dashboard
+          <span class="sub">Admin tools • Status • Users</span>
+        </button>
+
+        <button class="navItem active" data-link="./publisher.html">
+          Publishing
+          <span class="sub">Drafts • Approvals • Deploy</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot" id="pubSideFoot">Publishing Center</div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1">Publishing</div>
+          <div class="h2">Drafts • Approvals • Deploy</div>
+        </div>
+
+        <div class="topRight">
+          <div class="pill" id="authPill" style="display:none;"></div>
+          <button class="btnSmall" id="btnBackCmd" type="button">Back to Command</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div class="panelHeaderLeft">
+            <div class="panelKicker">Los Santos Police Department</div>
+            <div class="panelTitle">Publishing Center</div>
+          </div>
+
+          <div class="panelHeaderRight">
+            <div class="metaBox">
+              <div class="metaRow">
+                <div class="metaKey">Mode</div>
+                <div class="metaVal">Static (GitHub)</div>
+              </div>
+              <div class="metaRow">
+                <div class="metaKey">Draft</div>
+                <div class="metaVal">Command-only</div>
+              </div>
+              <div class="metaRow">
+                <div class="metaKey">Approved</div>
+                <div class="metaVal">Public</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contentPad">
+          <div class="cmdGrid">
+
+            <!-- LEFT -->
+            <div>
+
+              <div class="cmdCard">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Deployment Status</div>
+                    <div class="cmdSub">Current publish posture and last known state.</div>
+                  </div>
+                  <button class="cmdBtn ghost" id="btnRefreshStatus" type="button">Refresh</button>
+                </div>
+
+                <div class="pubGrid2">
+                  <div class="pubStat">
+                    <div class="pubStatKey">Branch</div>
+                    <div class="pubStatVal" id="pubBranch">main</div>
+                  </div>
+                  <div class="pubStat">
+                    <div class="pubStatKey">Environment</div>
+                    <div class="pubStatVal" id="pubEnv">Production</div>
+                  </div>
+                  <div class="pubStat">
+                    <div class="pubStatKey">Last Publish</div>
+                    <div class="pubStatVal" id="pubLast">—</div>
+                  </div>
+                  <div class="pubStat">
+                    <div class="pubStatKey">Status</div>
+                    <div class="pubStatVal" id="pubStatus"><span class="stateWarn">Unknown</span></div>
+                  </div>
+                </div>
+
+                <div class="cmdRow" style="margin-top:12px;">
+                  <button class="cmdBtn" id="btnOpenRepo" type="button">Open Repo</button>
+                  <button class="cmdBtn ghost" id="btnOpenActions" type="button">GitHub Actions</button>
+                  <button class="cmdBtn ghost" id="btnOpenPages" type="button">GitHub Pages</button>
+                </div>
+
+                <div class="cmdHint muted">
+                  UI-first for now. Later we’ll auto-read publish state from a Worker.
+                </div>
+              </div>
+
+              <div class="cmdCard" style="margin-top:14px;">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Workflow</div>
+                    <div class="cmdSub">Recommended publishing flow for SOP/Policies updates.</div>
+                  </div>
+                </div>
+
+                <ol class="pubSteps">
+                  <li><b>Edit Draft</b> content (command-only visibility).</li>
+                  <li><b>Review</b> formatting, links, and structure.</li>
+                  <li><b>Approve</b> (promote draft → approved).</li>
+                  <li><b>Publish</b> (deploy approved to public).</li>
+                </ol>
+
+                <div class="pubNote">
+                  <b>Ranks</b> stays static and should not go through draft/approval.
+                </div>
+              </div>
+
+              <div class="cmdCard" style="margin-top:14px;">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Pending Changes</div>
+                    <div class="cmdSub">Manual list for now — later auto-filled from content DB.</div>
+                  </div>
+                  <button class="cmdBtn ghost" id="btnAddChange" type="button">Add</button>
+                </div>
+
+                <div class="cmdTableWrap">
+                  <table class="cmdTable">
+                    <thead>
+                      <tr>
+                        <th style="width:40%;">Item</th>
+                        <th style="width:20%;">Section</th>
+                        <th style="width:20%;">State</th>
+                        <th style="width:20%; text-align:right;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="changesBody">
+                      <tr><td colspan="4" class="muted">No pending changes listed.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="cmdHint muted">
+                  Draft = command-only, Approved = public-ready.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div>
+
+              <div class="cmdCard">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Quick Tools</div>
+                    <div class="cmdSub">Fast navigation for content checks.</div>
+                  </div>
+                </div>
+
+                <div class="cmdRow">
+                  <button class="cmdBtn" id="btnOpenEditor" type="button">Edit Content</button>
+                  <!-- <button class="cmdBtn" id="btnOpenSOP" type="button">Open SOP Index</button>
+                  <button class="cmdBtn ghost" id="btnOpenPolicies" type="button">Open Policies</button>
+                  <button class="cmdBtn ghost" id="btnOpenWebRoster" type="button">Open Web Roster</button> -->
+                </div>
+
+                <div class="cmdRow">
+                  <button class="cmdBtn ghost" id="btnOpenDraftView" type="button">Draft View</button>
+                  <button class="cmdBtn ghost" id="btnOpenApprovedView" type="button">Approved View</button>
+                </div>
+
+                <div class="cmdHint muted">
+                  Draft/Approved views are placeholders until we wire the content DB + viewer rules.
+                </div>
+              </div>
+
+              <div class="cmdCard" style="margin-top:14px;">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Guardrails</div>
+                    <div class="cmdSub">Keep the site consistent and low-maintenance.</div>
+                  </div>
+                </div>
+
+                <ul class="pubBullets">
+                  <li><b>Ranks</b>: static only. No frequent edits.</li>
+                  <li><b>SOP/Policies</b>: draft → approved workflow.</li>
+                  <li><b>Consistency</b>: keep SOP templates uniform.</li>
+                  <li><b>Publishing</b>: changes land via GitHub deploy.</li>
+                </ul>
+              </div>
+
+              <div class="cmdCard" style="margin-top:14px;">
+                <div class="cmdCardHdr">
+                  <div>
+                    <div class="cmdTitle">Next Automation</div>
+                    <div class="cmdSub">When we’re ready to wire the real backend.</div>
+                  </div>
+                </div>
+
+                <div class="muted" style="font-size:12px; line-height:1.55;">
+                  We’ll add a Worker endpoint that can:
+                  <ul style="margin:8px 0 0 18px;">
+                    <li>Read current publish status (commit/date)</li>
+                    <li>Store draft/approved content in D1</li>
+                    <li>Promote draft → approved</li>
+                    <li>Optionally trigger build hooks</li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <footer class="panelFoot">
+          <div class="muted" id="updatedText">Last updated: —</div>
+          <div class="muted">Publishing Center</div>
+        </footer>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Publishing should follow staff direction and department policy.</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Auth (optional; keep disabled while you’re on an unpublished branch) -->
+  <!--
+  <script src="../js/auth/auth-config.js"></script>
+  <script src="../js/auth/auth-client.js"></script>
+  <script src="../js/auth/auth-gate.js"></script>
+  <script>window.LSPD_REQUIRED_ROLE = "command";</script>
+  -->
+
+  <script src="../js/pages/publisher.js"></script>
+
+  <script>
+    document.querySelectorAll(".navItem[data-link]").forEach(b => {
+      b.addEventListener("click", () => (window.location.href = b.dataset.link));
+    });
+  </script>
+</body>
+</html>

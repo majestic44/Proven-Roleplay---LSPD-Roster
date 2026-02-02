@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD SOP - Arrest Procedures</title>
+
+  <!-- Base Info Center styling -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <!-- Page-specific styling -->
+  <link rel="stylesheet" href="/css/pages/sop-template.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="../info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </button>
+
+        <button class="navItem" data-link="../policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </button>
+
+        <button class="navItem" data-link="../ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem active" data-link="../sop/index.html">
+          SOP / Procedures
+          <span class="sub">Procedure library</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot">
+        Tip: Slow is smooth. Smooth is fast. Control the scene before you go hands-on.
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1" id="sopTitle">Arrest Procedures</div>
+          <div class="h2" id="sopSubtitle">Authority • control • search • transport • booking • reporting</div>
+        </div>
+
+        <div class="topRight">
+          <button class="btnGhost" id="backBtn" type="button">← Back to SOP Index</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="sopLayout">
+
+          <!-- LEFT: Quick nav -->
+          <aside class="sopNav">
+            <div class="sopNavHdr">
+              <div class="sopNavKicker">Quick Nav</div>
+              <div class="sopNavTitle">Sections</div>
+            </div>
+            <div class="sopNavList" id="quickNav"></div>
+
+            <div class="sopMeta" id="metaBox"></div>
+          </aside>
+
+          <!-- RIGHT: SOP content -->
+          <div class="sopContent">
+            <div class="sopIntro" id="introBox"></div>
+
+            <div class="accordion" id="accordion"></div>
+
+            <div class="sopFooterNote" id="footerNote"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">SOP • Arrest Procedures</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <script src="/js/pages/arrest-procedures.js"></script>
+
+  <!-- Login Restriction -->
+  <script src="/js/auth/auth-config.js"></script>
+  <script src="/js/auth/auth-client.js"></script>
+  <script src="/js/auth/auth-gate.js"></script>
+
+</body>
+</html>

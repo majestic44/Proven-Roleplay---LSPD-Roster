@@ -146,5 +146,41 @@
     });
   }
 
+  // -------------------------------
+// Content Management (UI-only wiring for now)
+// -------------------------------
+function byId(id){ return document.getElementById(id); }
+
+(function initContentManagement(){
+  // Placeholder counts (until we connect to docs DB / manifest)
+  const approved = 6; // TODO: replace with real value
+  const drafts = 2;   // TODO: replace with real value
+
+  const a = byId("cmApprovedCount");
+  const d = byId("cmDraftCount");
+  if (a) a.textContent = `Approved: ${approved}`;
+  if (d) d.textContent = `Draft: ${drafts}`;
+
+  // View links (these should always work)
+  byId("btnViewSOP")?.addEventListener("click", () => location.href = "./sop/index.html");
+  byId("btnViewPolicies2")?.addEventListener("click", () => location.href = "./policies/index.html");
+  byId("btnViewRanks2")?.addEventListener("click", () => location.href = "./ranks/index.html");
+
+  // Manage buttons (stub for now)
+  const stub = (label) => alert(`${label}\n\nNot wired yet (next step).`);
+  byId("btnManageSOP")?.addEventListener("click", () => stub("Manage SOPs"));
+  byId("btnManagePolicies")?.addEventListener("click", () => stub("Manage Policies"));
+  byId("btnOpenPublish")?.addEventListener("click", () => stub("Publisher"));
+  byId("btnViewDrafts")?.addEventListener("click", () => stub("Draft Queue"));
+})();
+
+document.getElementById("btnOpenPublishing")?.addEventListener("click", () => {
+  location.href = "./publisher.html";
+});
+
+document.getElementById("btnOpenEditor")?.addEventListener("click", () => {
+  location.href = "./editor.html";
+});
+
   boot();
 })();

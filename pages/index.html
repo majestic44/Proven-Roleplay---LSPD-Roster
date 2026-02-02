@@ -6,8 +6,11 @@
   <title>Los Santos Police Department</title>
 
   <!-- reuse your existing base styling -->
-  <link rel="stylesheet" href="./info/info.css" />
-  <link rel="stylesheet" href="./shared/landing.css" />
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <!-- page specific styling -->
+  <link rel="stylesheet" href="/css/pages/landing.css">
 </head>
 
 <body>
@@ -16,7 +19,7 @@
       <div class="landingTitle">Los Santos Police Department</div>
 
       <div class="landingActions">
-        <a class="landingBtn" href="./webroster.html">Open Web Roster</a>
+        <a class="landingBtn" href="/pages/webroster.html">Open Web Roster</a>
         <button class="landingBtn ghost" id="openLogin" type="button">Login</button>
       </div>
 
@@ -59,12 +62,12 @@
 
 <!-- Proven Roleplay Badge -->
 <a class="prBadge" id="prBadge" href="https://provenrp.xyz" target="_blank" rel="noopener">
-<img src="./assets/proven-roleplay.gif" alt="Proven Roleplay" />
+<img src="./assets/img/proven-roleplay.gif" alt="Proven Roleplay" />
 <div class="prText">Proven Roleplay</div>
 </a>
 
-  <script src="./shared/auth-config.js"></script>
-  <script src="./shared/auth-client.js"></script>
-  <script src="./shared/landing.js"></script>
+  <script src="./js/auth/auth-config.js"></script>
+  <script src="./js/auth/auth-client.js"></script>
+  <script src="./js/pages/landing.js"></script>
 </body>
 </html>

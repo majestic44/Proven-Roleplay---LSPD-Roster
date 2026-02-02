@@ -6,9 +6,11 @@
   <title>LSPD Command Dashboard</title>
 
   <!-- Your existing styling -->
-  <link rel="stylesheet" href="./info/info.css" />
-  <link rel="stylesheet" href="./sop/sop-template.css" />
-    <link rel="stylesheet" href="./shared/command.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <!-- Page-specific styling -->
+  <link rel="stylesheet" href="/css/pages/command.css" />
 
   <!-- If your Command Dashboard CSS is not already included globally,
        put it in shared/command.css and uncomment this -->
@@ -31,7 +33,7 @@
       </div>
 
       <nav class="nav">
-        <button class="navItem" data-link="./info/index.html">
+        <button class="navItem" data-link="./pages/info/index.html">
           Codes & Radio
           <span class="sub">10-Codes • Response Codes</span>
         </button>
@@ -156,28 +158,68 @@
               </div>
 
               <div class="cmdRow">
-                <button class="cmdBtn" id="btnOpenSopIndex" type="button">Open SOP Index</button>
+                <button class="cmdBtn ghost" id="btnOpenPublishing" type="button">Publishing</button>
+                <button class="cmdBtn" id="btnOpenEditor" type="button">Edit Content</button>
+                <!-- <button class="cmdBtn" id="btnOpenSopIndex" type="button">Open SOP Index</button>
                 <button class="cmdBtn ghost" id="btnOpenPolicies" type="button">Open Policies</button>
-                <button class="cmdBtn ghost" id="btnOpenRanks" type="button">Open Ranks</button>
+                <button class="cmdBtn ghost" id="btnOpenRanks" type="button">Open Ranks</button> -->
               </div>
 
-              <div class="cmdCard" style="margin-top:14px;">
-                <div class="cmdCardHdr">
-                  <div>
-                    <div class="cmdTitle">Publishing</div>
-                    <div class="cmdSub">How content gets updated.</div>
-                  </div>
-                </div>
+              <!-- CONTENT MANAGEMENT -->
+<div class="cmdCard" style="margin-top:14px;">
+  <div class="cmdCardHdr">
+    <div>
+      <div class="cmdTitle">Content Management</div>
+      <div class="cmdSub">Draft vs Approved visibility and publishing controls.</div>
+    </div>
 
-                <div class="muted" style="font-size:12px; line-height:1.5;">
-                  Right now your site pages are static. “Publishing” is done by updating files in GitHub.
-                  Next we’ll add:
-                  <ul style="margin:8px 0 0 18px;">
-                    <li>Draft vs Approved visibility rules</li>
-                    <li>Command-only edit workflow (D1-backed)</li>
-                  </ul>
-                </div>
-              </div>
+    <div class="cmdBadgeRow">
+      <span class="cmdBadge ok" id="cmApprovedCount">Approved: —</span>
+      <span class="cmdBadge warn" id="cmDraftCount">Draft: —</span>
+    </div>
+  </div>
+
+  <div class="cmdContentGrid">
+    <div class="cmdMini">
+      <div class="cmdMiniTitle">SOP Library</div>
+      <div class="cmdMiniSub">Procedures that may be Draft or Approved.</div>
+      <div class="cmdMiniActions">
+        <button class="cmdBtn" id="btnManageSOP" type="button">Manage SOPs</button>
+        <button class="cmdBtn ghost" id="btnViewSOP" type="button">View SOP Index</button>
+      </div>
+    </div>
+
+    <div class="cmdMini">
+      <div class="cmdMiniTitle">Policies</div>
+      <div class="cmdMiniSub">Department policies and standards.</div>
+      <div class="cmdMiniActions">
+        <button class="cmdBtn ghost" id="btnManagePolicies" type="button">Manage Policies</button>
+        <button class="cmdBtn ghost" id="btnViewPolicies2" type="button">View Policies</button>
+      </div>
+    </div>
+
+    <!-- <div class="cmdMini">
+      <div class="cmdMiniTitle">Ranks</div>
+      <div class="cmdMiniSub">Static page (no edits from dashboard).</div>
+      <div class="cmdMiniActions">
+        <button class="cmdBtn ghost" id="btnViewRanks2" type="button">View Ranks</button>
+      </div>
+    </div> -->
+
+    <div class="cmdMini">
+      <div class="cmdMiniTitle">Publish</div>
+      <div class="cmdMiniSub">Approve drafts and push updates live.</div>
+      <div class="cmdMiniActions">
+        <button class="cmdBtn" id="btnOpenPublish" type="button">Open Publisher</button>
+        <button class="cmdBtn ghost" id="btnViewDrafts" type="button">View Draft Queue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cmdHint muted" style="margin-top:10px;">
+    <b>Goal:</b> public users see only <b>Approved</b> content. Logged-in Command can view/edit Draft.
+  </div>
+</div>
 
               <div class="cmdCard" style="margin-top:14px;">
                 <div class="cmdCardHdr">
@@ -222,16 +264,16 @@
   </div>
 
   <!-- Auth -->
-  <script src="./shared/auth-config.js"></script>
-  <script src="./shared/auth-client.js"></script>
-  <script src="./shared/auth-gate.js"></script>
+  <script src="/js/auth/auth-config.js"></script>
+  <script src="/js/auth/auth-client.js"></script>
+  <script src="/js/auth/auth-gate.js"></script>
   <script>
     // Command-only page gate
     window.LSPD_REQUIRED_ROLE = "command";
   </script>
 
   <!-- Dashboard Logic -->
-  <script src="./shared/command.js"></script>
+  <script src="/js/pages/command.js"></script>
 
   <script>
     document.querySelectorAll(".navItem[data-link]").forEach(b => {

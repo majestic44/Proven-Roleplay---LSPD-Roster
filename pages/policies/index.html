@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Policies</title>
+
+  <!-- Reuse the same base styling as your Info Center -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <!-- Page-specific styling -->
+  <link rel="stylesheet" href="/css/pages/policies.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <a class="navItem" href="/pages/info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </a>
+
+        <a class="navItem active" href="/pages/policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </a>
+
+        <button class="navItem active" data-link="/pages/ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem active" data-link="/pages/sop/index.html">
+          SOP / Procedures
+          <span class="sub">Operational procedures index</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot">
+        Tip: Use search to filter by keyword (e.g., “force”, “corruption”).
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1" id="pageTitle">Policies</div>
+          <div class="h2" id="pageSub">Department standards and expectations</div>
+        </div>
+
+        <div class="topRight">
+          <label class="searchWrap">
+            <span class="searchIcon">⌕</span>
+            <input id="search" class="search" placeholder="Search policies…" />
+          </label>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div class="panelHeaderLeft">
+            <div class="panelKicker">Los Santos Police Department</div>
+            <div class="panelTitle">Policy Overview</div>
+          </div>
+
+          <div class="panelHeaderRight">
+            <div class="pill" id="countPill">0 Sections</div>
+          </div>
+        </div>
+
+        <div class="contentPad">
+          <div class="gridCards" id="policyGrid"></div>
+
+          <div class="empty" id="emptyState" style="display:none;">
+            No results. Try a different search term.
+          </div>
+
+          <div class="noteBox">
+            <div class="noteTitle">Expansion Ready</div>
+            <div class="noteText">
+              This page is designed to grow. Add new sections (Pursuits, Arrest Procedures, Traffic Stops, etc.)
+              by adding items to <code>POLICY_SECTIONS</code> in <code>policies.js</code>.
+            </div>
+          </div>
+        </div>
+
+        <footer class="panelFoot">
+          <div class="muted" id="updatedText">Last updated: —</div>
+          <div class="muted">Information Center • Policies</div>
+        </footer>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Policies are enforced department-wide. Staff approval required where indicated.</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <script src="/js/pages/policies.js"></script>
+
+  <!-- Login Restriction -->
+  <script src="/js/auth/auth-config.js"></script>
+  <script src="/js/auth/auth-client.js"></script>
+  <script src="/js/auth/auth-gate.js"></script>
+
+</body>
+</html>

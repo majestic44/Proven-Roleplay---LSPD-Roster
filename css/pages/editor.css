@@ -1,0 +1,55 @@
+/* ================================
+   Editor Page Add-ons (uses cmdCard system)
+   ================================ */
+
+.editFilters{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.editRow .loginInput{
+  cursor: pointer;
+}
+
+.editMeta{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.editArea{
+  width: 100%;
+  min-height: 420px;
+  resize: vertical;
+
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.18);
+  color: #eaf2ff;
+
+  padding: 12px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.55;
+
+  outline: none;
+}
+
+.editArea:focus{
+  border-color: rgba(103,179,255,0.55);
+}
+
+.editActions{
+  display:flex;
+  justify-content:flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 980px){
+  .editMeta{ grid-template-columns: 1fr; }
+}

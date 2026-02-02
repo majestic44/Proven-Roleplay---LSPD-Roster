@@ -1,0 +1,165 @@
+/* Page-specific additions layered on top of info.css */
+
+.panelHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0,0,0,0.16);
+}
+
+.panelKicker{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.panelTitle{
+  margin-top:6px;
+  font-size:18px;
+  font-weight: 950;
+  letter-spacing:.04em;
+}
+
+.pill{
+  border: 1px solid rgba(103,179,255,0.35);
+  background: rgba(103,179,255,0.12);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 950;
+  letter-spacing:.04em;
+}
+
+.contentPad{
+  padding: 14px;
+  overflow:auto;
+}
+
+.gridCards{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+
+.rankLegend{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.18);
+}
+
+.legendItem{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-weight: 900;
+  color: rgba(234,242,255,0.86);
+  font-size: 12px;
+  letter-spacing:.04em;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius: 999px;
+  display:inline-block;
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.dotCmd{ background: rgba(103,179,255,0.65); }
+.dotSup{ background: rgba(255,170,60,0.70); }
+.dotLine{ background: rgba(46,229,141,0.70); }
+.dotTrain{ background: rgba(255,210,74,0.75); }
+
+.rankCard{
+  grid-column: span 6;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: var(--r2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(0,0,0,0.14));
+  overflow:hidden;
+}
+
+.rankTop{
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.rankName{
+  font-weight: 950;
+  letter-spacing:.04em;
+  font-size: 14px;
+}
+
+.rankTier{
+  font-size:12px;
+  font-weight: 950;
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.03);
+  color: rgba(234,242,255,0.86);
+  white-space:nowrap;
+}
+
+.rankTier.cmd{ border-color: rgba(103,179,255,0.35); background: rgba(103,179,255,0.12); }
+.rankTier.sup{ border-color: rgba(255,170,60,0.35); background: rgba(255,170,60,0.10); }
+.rankTier.line{ border-color: rgba(46,229,141,0.30); background: rgba(46,229,141,0.10); }
+.rankTier.train{ border-color: rgba(255,210,74,0.35); background: rgba(255,210,74,0.12); }
+
+.rankBody{
+  padding: 12px 14px 14px;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+}
+
+.rankDesc{
+  color: rgba(234,242,255,0.92);
+  font-weight: 850;
+  line-height: 1.55;
+}
+
+.bullet{
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(234,242,255,0.92);
+  font-weight: 800;
+  line-height: 1.55;
+}
+.bullet li{ margin: 6px 0; }
+
+.noteBox{
+  margin-top: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  background: rgba(0,0,0,0.18);
+  padding: 14px;
+}
+
+.noteTitle{
+  font-weight: 950;
+  letter-spacing:.04em;
+}
+
+.noteText{
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+@media (max-width: 980px){
+  .rankCard{ grid-column: span 12; }
+}

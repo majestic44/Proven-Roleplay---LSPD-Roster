@@ -6,8 +6,11 @@
   <title>LSPD Document</title>
 
   <!-- your existing styling -->
-  <link rel="stylesheet" href="./info/info.css" />
-  <link rel="stylesheet" href="./sop/sop-template.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <!-- page specific styling -->
+  <link rel="stylesheet" href="/css/pages/sop-template.css" />
 </head>
 
 <body>
@@ -99,14 +102,14 @@
   </div>
 
   <!-- auth + loader -->
-  <script src="./shared/auth-config.js"></script>
-  <script src="./shared/auth-client.js"></script>
+  <script src="/js/auth/auth-config.js"></script>
+  <script src="/js/auth/auth-client.js"></script>
 
   <!-- meta renderer you already have (or put it into shared/meta.js) -->
-  <script src="./shared/meta-render.js"></script>
+  <script src="/js/shared/meta-render.js"></script>
 
   <!-- the new viewer logic -->
-  <script src="./shared/doc-viewer.js"></script>
+  <script src="/js/shared/doc-viewer.js"></script>
 
   <script>
     // Sidebar nav buttons

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD SOP Index</title>
+
+  <!-- Base Info Center styling -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <!-- Page-specific styling -->
+  <link rel="stylesheet" href="/css/pages/sop.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="/pages/info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </button>
+
+        <button class="navItem" data-link="/pages/policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </button>
+
+        <button class="navItem" data-link="/pages/ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem active" data-link="/pages/sop/index.html">
+          SOP / Procedures
+          <span class="sub">Operational procedures index</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot">
+        Tip: Use tags to quickly filter procedures (Traffic, Arrests, Pursuits).
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1" id="pageTitle">SOP / Procedures</div>
+          <div class="h2" id="pageSub">Standard Operating Procedures index</div>
+        </div>
+
+        <div class="topRight">
+          <label class="searchWrap">
+            <span class="searchIcon">⌕</span>
+            <input id="search" class="search" placeholder="Search SOPs (e.g., 'pursuit', 'traffic', 'arrest')…" />
+          </label>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div class="panelHeaderLeft">
+            <div class="panelKicker">Los Santos Police Department</div>
+            <div class="panelTitle">Procedure Library</div>
+          </div>
+
+          <div class="panelHeaderRight">
+            <div class="pill" id="countPill">0 SOPs</div>
+          </div>
+        </div>
+
+        <div class="contentPad">
+
+          <div class="filtersRow">
+            <div class="filterGroup">
+              <div class="filterLabel">Status</div>
+              <div class="chips" id="statusChips"></div>
+            </div>
+
+            <div class="filterGroup">
+              <div class="filterLabel">Tags</div>
+              <div class="chips" id="tagChips"></div>
+            </div>
+          </div>
+
+          <div class="gridCards" id="sopGrid"></div>
+
+          <div class="empty" id="emptyState" style="display:none;">
+            No results. Try a different search or tag.
+          </div>
+
+          <div class="noteBox">
+            <div class="noteTitle">How this page works</div>
+            <div class="noteText">
+              This is an index of SOP topics. Each SOP can link to a future detail page. Edit items in
+              <code>sop/sop.js</code> to add new procedures or mark them Active.
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="panelFoot">
+          <div class="muted" id="updatedText">Last updated: —</div>
+          <div class="muted">Information Center • SOP Index</div>
+        </footer>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">SOP guidance is subordinate to server rules and staff direction where applicable.</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <script src="/js/pages/sop.js"></script>
+
+  <!-- Login Restriction -->
+  <script src="/js/auth/auth-config.js"></script>
+  <script src="/js/auth/auth-client.js"></script>
+  <script src="/js/auth/auth-gate.js"></script>
+
+</body>
+</html>

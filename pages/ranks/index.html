@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Rank Structure</title>
+
+  <!-- Base Info Center styling -->
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <!-- Page-specific styling -->
+  <link rel="stylesheet" href="/css/pages/ranks.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="/pages/info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </button>
+
+        <button class="navItem" data-link="/pages/policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </button>
+
+        <button class="navItem active" data-link="/pages/ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem active" data-link="/pages/sop/index.html">
+          SOP / Procedures
+          <span class="sub">Operational procedures index</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot">
+        Tip: Use search to filter by rank or responsibility.
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1" id="pageTitle">Rank Structure</div>
+          <div class="h2" id="pageSub">Expanded chain of command</div>
+        </div>
+
+        <div class="topRight">
+          <label class="searchWrap">
+            <span class="searchIcon">⌕</span>
+            <input id="search" class="search" placeholder="Search ranks (e.g., 'Lieutenant', 'supervision', 'training')…" />
+          </label>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div class="panelHeaderLeft">
+            <div class="panelKicker">Los Santos Police Department</div>
+            <div class="panelTitle">Chain of Command</div>
+          </div>
+
+          <div class="panelHeaderRight">
+            <div class="pill" id="countPill">0 Ranks</div>
+          </div>
+        </div>
+
+        <div class="contentPad">
+          <div class="rankLegend">
+            <div class="legendItem">
+              <span class="dot dotCmd"></span>
+              <span>Command</span>
+            </div>
+            <div class="legendItem">
+              <span class="dot dotSup"></span>
+              <span>Supervision</span>
+            </div>
+            <div class="legendItem">
+              <span class="dot dotLine"></span>
+              <span>Line / Patrol</span>
+            </div>
+            <div class="legendItem">
+              <span class="dot dotTrain"></span>
+              <span>Training / Probation</span>
+            </div>
+          </div>
+
+          <div class="gridCards" id="rankGrid"></div>
+
+          <div class="empty" id="emptyState" style="display:none;">
+            No results. Try a different search term.
+          </div>
+
+          <div class="noteBox">
+            <div class="noteTitle">Admin Notes</div>
+            <div class="noteText">
+              <!-- Rank text is maintained in <code>ranks/ranks.js</code>. You can edit descriptions and responsibilities at any time. -->
+            </div>
+          </div>
+        </div>
+
+        <footer class="panelFoot">
+          <div class="muted" id="updatedText">Last updated: —</div>
+          <div class="muted">Information Center • Rank Structure</div>
+        </footer>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Rank authority and responsibilities may be expanded by policy and SOP as sections are added.</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <script src="/js/pages/ranks.js"></script>
+
+  <!-- Login Restriction -->
+  <script src="/js/auth/auth-config.js"></script>
+  <script src="/js/auth/auth-client.js"></script>
+  <script src="/js/auth/auth-gate.js"></script>
+
+</body>
+</html>

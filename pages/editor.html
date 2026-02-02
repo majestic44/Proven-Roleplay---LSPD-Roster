@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Content Editor</title>
+
+  <!-- Base system CSS -->
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+
+  <!-- Dashboard system -->
+  <link rel="stylesheet" href="../css/pages/command.css" />
+
+  <!-- Page-specific -->
+  <link rel="stylesheet" href="../css/pages/editor.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Information Center</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="./info/index.html">
+          Codes & Radio
+          <span class="sub">10-Codes • Response Codes</span>
+        </button>
+
+        <button class="navItem" data-link="./policies/index.html">
+          Policies
+          <span class="sub">Conduct • Force • RP Standards</span>
+        </button>
+
+        <button class="navItem" data-link="./ranks/index.html">
+          Rank Structure
+          <span class="sub">Chain of command • Responsibilities</span>
+        </button>
+
+        <button class="navItem" data-link="./sop/index.html">
+          SOP / Procedures
+          <span class="sub">Operational procedures index</span>
+        </button>
+
+        <button class="navItem" data-link="./webroster.html">
+          Web Roster
+          <span class="sub">Roster • Embed</span>
+        </button>
+
+        <button class="navItem" data-link="./command.html">
+          Command Dashboard
+          <span class="sub">Admin tools • Status • Users</span>
+        </button>
+
+        <button class="navItem" data-link="./publisher.html">
+          Publishing
+          <span class="sub">Drafts • Approvals • Deploy</span>
+        </button>
+
+        <button class="navItem active" data-link="./editor.html">
+          Edit Content
+          <span class="sub">Drafts • SOP/Policy pages</span>
+        </button>
+      </nav>
+
+      <div class="sideFoot" id="editSideFoot">Content Editor</div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topLeft">
+          <div class="h1">Edit Content</div>
+          <div class="h2">Draft-first • Command workflow</div>
+        </div>
+
+        <div class="topRight">
+          <div class="pill" id="authPill" style="display:none;"></div>
+          <button class="btnSmall" id="btnBackPublishing" type="button">Back to Publishing</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div class="panelHeaderLeft">
+            <div class="panelKicker">Los Santos Police Department</div>
+            <div class="panelTitle">Content Editor</div>
+          </div>
+
+          <div class="panelHeaderRight">
+            <div class="metaBox">
+              <div class="metaRow">
+                <div class="metaKey">Scope</div>
+                <div class="metaVal">SOP + Policies</div>
+              </div>
+              <div class="metaRow">
+                <div class="metaKey">Ranks</div>
+                <div class="metaVal">Static (not editable)</div>
+              </div>
+              <div class="metaRow">
+                <div class="metaKey">Mode</div>
+                <div class="metaVal"><span class="stateWarn">UI only</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contentPad">
+          <div class="cmdGrid">
+
+            <!-- LEFT: Document list + selection -->
+            <div class="cmdCard">
+              <div class="cmdCardHdr">
+                <div>
+                  <div class="cmdTitle">Select Document</div>
+                  <div class="cmdSub">Choose a page to edit as a draft. (UI-only for now)</div>
+                </div>
+                <button class="cmdBtn ghost" id="btnRefreshDocs" type="button">Refresh</button>
+              </div>
+
+              <div class="editFilters">
+                <div class="editRow">
+                  <label class="loginLabel" for="docSection">Section</label>
+                  <select class="loginInput" id="docSection">
+                    <option value="sop">SOP</option>
+                    <option value="policies">Policies</option>
+                  </select>
+                </div>
+
+                <div class="editRow">
+                  <label class="loginLabel" for="docSlug">Page</label>
+                  <select class="loginInput" id="docSlug"></select>
+                </div>
+
+                <div class="editRow">
+                  <label class="loginLabel" for="docState">State</label>
+                  <select class="loginInput" id="docState">
+                    <option value="draft">Draft (Command-only)</option>
+                    <option value="approved">Approved (Public-ready)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="cmdRow" style="margin-top:12px;">
+                <button class="cmdBtn" id="btnLoad" type="button">Load</button>
+                <button class="cmdBtn ghost" id="btnPreview" type="button">Preview</button>
+                <button class="cmdBtn ghost" id="btnReset" type="button">Reset</button>
+              </div>
+
+              <div class="cmdHint muted">
+                This editor will later save to D1 via Worker. For now it stores drafts locally.
+              </div>
+
+              <div class="cmdErr" id="editErr" style="display:none;"></div>
+            </div>
+
+            <!-- RIGHT: Editor + actions -->
+            <div class="cmdCard">
+              <div class="cmdCardHdr">
+                <div>
+                  <div class="cmdTitle">Draft Editor</div>
+                  <div class="cmdSub">Edit HTML content for the selected page.</div>
+                </div>
+                <div class="cmdRow" style="margin:0;">
+                  <button class="cmdBtn ghost" id="btnFormat" type="button">Format</button>
+                  <button class="cmdBtn" id="btnSaveDraft" type="button">Save Draft</button>
+                </div>
+              </div>
+
+              <div class="editMeta">
+                <div class="pubStat">
+                  <div class="pubStatKey">Editing</div>
+                  <div class="pubStatVal" id="editingLabel">—</div>
+                </div>
+                <div class="pubStat">
+                  <div class="pubStatKey">Storage</div>
+                  <div class="pubStatVal"><span class="stateWarn">localStorage</span></div>
+                </div>
+              </div>
+
+              <textarea class="editArea" id="editArea" spellcheck="false"
+                placeholder="Paste / edit the HTML content that should display inside your page panel..."></textarea>
+
+              <div class="editActions">
+                <button class="cmdBtn ghost" id="btnCopy" type="button">Copy</button>
+                <button class="cmdBtn ghost" id="btnDownload" type="button">Download</button>
+              </div>
+
+              <div class="cmdHint muted">
+                Keep the content “panel-safe”: no full HTML document wrapper. Just the inner markup you want displayed.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <footer class="panelFoot">
+          <div class="muted" id="updatedText">Last updated: —</div>
+          <div class="muted">Content Editor</div>
+        </footer>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Changes should be reviewed before promoting draft → approved.</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Auth (optional; keep disabled while branch is unpublished) -->
+  <!--
+  <script src="../js/auth/auth-config.js"></script>
+  <script src="../js/auth/auth-client.js"></script>
+  <script src="../js/auth/auth-gate.js"></script>
+  <script>window.LSPD_REQUIRED_ROLE = "command";</script>
+  -->
+
+  <script src="../js/pages/editor.js"></script>
+
+  <script>
+    document.querySelectorAll(".navItem[data-link]").forEach(b => {
+      b.addEventListener("click", () => (window.location.href = b.dataset.link));
+    });
+  </script>
+</body>
+</html>

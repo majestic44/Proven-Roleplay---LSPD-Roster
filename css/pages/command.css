@@ -161,3 +161,81 @@ min-width: 280px;
   color: #ffd6d6;
   font-weight: 800;
 }
+
+/* ================================
+   Content Management (Command)
+   ================================ */
+
+.cmdBadgeRow{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+.cmdBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.18);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: rgba(234,242,255,0.88);
+}
+
+.cmdBadge.ok{
+  border-color: rgba(70,255,150,0.28);
+  background: rgba(70,255,150,0.08);
+}
+
+.cmdBadge.warn{
+  border-color: rgba(255,200,60,0.28);
+  background: rgba(255,200,60,0.08);
+}
+
+.cmdContentGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 980px){
+  .cmdContentGrid{ grid-template-columns: 1fr; }
+  .cmdBadgeRow{ justify-content:flex-start; }
+}
+
+.cmdMini{
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.16));
+  padding: 12px;
+}
+
+.cmdMiniTitle{
+  font-weight: 950;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(234,242,255,0.92);
+}
+
+.cmdMiniSub{
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(234,242,255,0.68);
+  line-height: 1.4;
+}
+
+.cmdMiniActions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 10px;
+}

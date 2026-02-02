@@ -1,0 +1,68 @@
+/* ================================
+   Publishing Page Add-ons
+   ================================ */
+
+.pubGrid2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pubStat{
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  background: rgba(0,0,0,0.14);
+  padding: 10px 12px;
+}
+
+.pubStatKey{
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(234,242,255,0.70);
+  margin-bottom: 6px;
+}
+
+.pubStatVal{
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(234,242,255,0.92);
+}
+
+.pubSteps{
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(234,242,255,0.82);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.pubSteps li{ margin: 6px 0; }
+
+.pubBullets{
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(234,242,255,0.82);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.pubBullets li{ margin: 6px 0; }
+
+.pubNote{
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,204,125,0.25);
+  background: rgba(255,204,125,0.08);
+  color: rgba(234,242,255,0.92);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.stateOk{ color:#7dffb3; font-weight:900; }
+.stateWarn{ color:#ffcc7d; font-weight:900; }
+.stateBad{ color:#ff8080; font-weight:900; }
+
+@media (max-width: 980px){
+  .pubGrid2{ grid-template-columns: 1fr; }
+}

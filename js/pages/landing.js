@@ -10,7 +10,7 @@
   const passEl = document.getElementById("loginPass");
 
   const params = new URLSearchParams(location.search);
-  const next = params.get("next") || "./info/index.html";
+  const next = params.get("next") || "/pages/info/index.html";
 
   function show(){
     errBox.style.display = "none";
