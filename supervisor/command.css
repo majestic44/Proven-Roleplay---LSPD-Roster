@@ -1,0 +1,134 @@
+/* =========================================================
+   COMMAND HANDBOOK INDEX — CARDS + CHIPS + GROUPING
+   ========================================================= */
+
+:root{
+  --cmdText: #eaf2ff;
+  --cmdMuted: #a9b8d3;
+  --cmdLine: rgba(255,255,255,0.12);
+  --cmdBlue: rgba(103,179,255,0.45);
+  --cmdPanelA: rgba(255,255,255,0.04);
+  --cmdPanelB: rgba(0,0,0,0.18);
+}
+
+/* Group sections */
+.cmdGroup{
+  border: 1px solid var(--cmdLine);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  padding: 14px;
+  margin: 0 0 14px 0;
+}
+
+.cmdGroupHdr{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 12px;
+}
+
+.cmdGroupTitle{
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.cmdGroupDesc{
+  color: var(--cmdMuted);
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 4px;
+}
+
+.cmdGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 900px){
+  .cmdGrid{ grid-template-columns: 1fr; }
+}
+
+/* Card buttons */
+.cmdCard{
+  appearance: none;
+  border: 1px solid var(--cmdLine);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--cmdPanelA), var(--cmdPanelB));
+  color: var(--cmdText);
+  width: 100%;
+  text-align: left;
+  padding: 14px 14px 12px 14px;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .08s ease;
+}
+
+.cmdCard:hover{
+  border-color: var(--cmdBlue);
+  background: linear-gradient(180deg, rgba(103,179,255,0.10), rgba(0,0,0,0.22));
+}
+
+.cmdCard:active{
+  transform: translateY(1px);
+}
+
+.cmdCardTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 8px;
+}
+
+.cmdCardTitle{
+  font-weight: 900;
+  letter-spacing: .02em;
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.cmdCardDesc{
+  color: var(--cmdMuted);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+.cmdChips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top: 10px;
+}
+
+/* Chips */
+.chip{
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid var(--cmdLine);
+  background: rgba(0,0,0,0.20);
+  color: var(--cmdText);
+  white-space: nowrap;
+}
+
+.chipScope{
+  border-color: rgba(255,170,60,0.35);
+  background: rgba(255,170,60,0.10);
+}
+
+.chipStatus{
+  border-color: rgba(103,179,255,0.35);
+  background: rgba(103,179,255,0.10);
+}
+
+/* Status variants */
+.stDraft{ border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.05); }
+.stWip{ border-color: rgba(255,170,60,0.40); background: rgba(255,170,60,0.12); }
+.stApproved{ border-color: rgba(46,229,141,0.40); background: rgba(46,229,141,0.12); }

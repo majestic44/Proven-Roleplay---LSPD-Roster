@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LSPD Command Handbook</title>
+
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages/sop-template.css" />
+  <link rel="stylesheet" href="/css/pages/command.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="kicker">Los Santos Police Department</div>
+        <div class="title">Command Handbook</div>
+      </div>
+
+      <nav class="nav">
+        <button class="navItem" data-link="../info/index.html">Codes & Radio</button>
+        <button class="navItem" data-link="../policies/index.html">Policies</button>
+        <button class="navItem" data-link="../ranks/index.html">Rank Structure</button>
+        <button class="navItem" data-link="../sop/index.html">SOPs</button>
+        <button class="navItem active" data-link="./index.html">Command Handbook</button>
+      </nav>
+
+      <div class="sideFoot">
+        Leadership is responsibility, not authority.
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="h1">Supervisor / Command Handbook</div>
+        <div class="h2">Leadership expectations • authority • accountability</div>
+      </header>
+
+      <section class="panel">
+        <!-- DATA-DRIVEN INDEX MOUNT -->
+        <div id="cmdIndex"></div>
+      </section>
+
+      <footer class="pageFoot">
+        <span class="muted">Command Handbook • LSPD</span>
+      </footer>
+    </main>
+
+  </div>
+
+  <script>
+    document.querySelectorAll(".navItem[data-link]").forEach(b =>
+      b.onclick = () => location.href = b.dataset.link
+    );
+  </script>
+
+  <script src="./index.js"></script>
+</body>
+</html>
